@@ -21,7 +21,6 @@ main{
     backdrop-filter: blur(2rem);
     font-family: 'Press Start 2P';font-size: 60px;
     text-align: center;
-
 }
 .center{
     margin: 0;
