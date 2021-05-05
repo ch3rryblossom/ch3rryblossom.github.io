@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;    
+}
+main{
+    min-height: 100vh;
+    background: linear-gradient(to right top, #fde3e8, #ffb7c5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main {
+    min-height: 80vh;
+    width: 70%;
+    display: flex;
+    border-style: solid;
+}
+.sidebar {
+    flex: 1;
+    border-style: solid;
+    display: flex;
+    flex-direction: column;
+}
+.top {
+    flex: 1;
+    border-style: solid;
+}
+.rest {
+    flex: 5;
+    border-style: solid;
+}
+.content {
+    flex: 3;
+    border-style: solid;
+}
