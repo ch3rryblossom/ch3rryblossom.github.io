@@ -33,9 +33,9 @@ main{
 .main {
     min-height: 80vh;
     width: 70%;
-    background: linear-gradient(to right bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+    background: linear-gradient(to right bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
     border-radius: 2rem;
-    backdrop-filter: blur(2rem);
+    backdrop-filter: blur(1rem);
     display: flex;
     font-family: 'Press Start 2P';font-size: 20px;
     z-index: 2;
@@ -43,7 +43,6 @@ main{
 .sidebar {
     flex: 1;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.8));
-    backdrop-filter: blur(2rem);
     border-radius: 2rem;
     align-items: center;
     justify-content: center;
@@ -62,7 +61,7 @@ main{
     flex: 3;
 }
 .link{
-    padding: 10px;
+    padding: 20px;
     -webkit-transition: background 0.4s ease-out;
     -moz-transition: background 0.4s ease-out;
     -o-transition: background 0.4s ease-out;
