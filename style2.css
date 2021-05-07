@@ -53,7 +53,7 @@ main{
 .circle1{
     top: 5%;
     left: 10%;
-    order: 3;
+    z-index: 1;
     background: rgb(70, 188, 209);
 }
 .circle2{
