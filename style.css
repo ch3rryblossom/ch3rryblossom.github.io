@@ -17,13 +17,11 @@ main{
     border-radius: 2rem;
     backdrop-filter: blur(2rem);
     display: flex;
-    border-style: solid;
     font-family: 'Press Start 2P';font-size: 20px;
 }
 .sidebar {
     flex: 1;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
-    border-style: solid;
     border-radius: 2rem;
     align-items: center;
     justify-content: center;
@@ -35,15 +33,12 @@ main{
     background: rgba(255,255,255,0.9);
     padding: 50px 10px;
     flex: 1;
-    border-style: solid;
 }
 .rest {
     flex: 5;
-    border-style: solid;
 }
 .content {
     flex: 3;
-    border-style: solid;
 }
 .link{
     background: rgba(255,255,255,0.6);
