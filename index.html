@@ -12,6 +12,15 @@
   <!--https://smallenvelop.com/display-loading-icon-page-loads-completely/-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    $.getJSON("https://api.ipify.org?format=json",
+                                      function(data) {
+        $("#gfg").html(data.ip);
+    })
+  </script>
+
   <script type='text/javascript'>
       $(window).load(function() {
 	    	// Animate loader off screen
@@ -44,6 +53,7 @@
             <h5>yayay!</h5>
             <br><br><br><br><br><br><br><br><br>
             This site is a work in progress.
+            <p id="gfg"></p>
         </div>
     </div>
     <div class="circle1"></div>
