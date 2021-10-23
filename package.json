@@ -1,0 +1,23 @@
+{
+  "name": "ch3rryblossom.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "tailwindcss build src/styles.css -o public/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ch3rryblossom/ch3rryblossom.github.io.git"
+  },
+  "keywords": [],
+  "author": "ch3rryblossom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ch3rryblossom/ch3rryblossom.github.io/issues"
+  },
+  "homepage": "https://github.com/ch3rryblossom/ch3rryblossom.github.io#readme",
+  "dependencies": {
+    "tailwindcss": "^2.2.17"
+  }
+}
