@@ -1,4 +1,10 @@
 
+/* typist.js stuff */
+#hero-type {
+  --ti-color: rgb(255, 144, 165);
+  --ti-cursor-line-height: 1.8;
+}
+
 /* Scrollbar Stuff */
 
 /* firefox */
@@ -18,7 +24,7 @@ html::-webkit-scrollbar-thumb {
     border-radius: 10px;
 }
 html::-webkit-scrollbar-track {
-    background-color: #555;
+    background-color: #000;
     border-radius:  10px;
 }
 

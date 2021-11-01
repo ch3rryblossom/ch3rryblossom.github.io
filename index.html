@@ -72,12 +72,26 @@
 	    </nav>
 
 	<section class="flex items-center justify-center h-screen text-white font-serif text-7xl">
-		<div>bhay</div>
+		<div id="hero-type"></div>
 	</section>
 
 	<section class="flex items-center justify-center h-screen text-white font-serif text-7xl">
 		<div>heya</div>
 	</section>
 
+<script src="typeit-index.umd.js"></script>
+<script>
+	new TypeIt('#hero-type', {
+		speed: 200,
+		loop: true,
+		breakLines: false,
+		deleteSpeed: 100,
+	})
+	.type("bhay")
+	.pause(1000)
+	.delete()
+	.type("bhay bhay")
+	.go();
+</script>
 </body>
 </html>
