@@ -59,16 +59,16 @@ html::-webkit-scrollbar-track {
   
   /* Create the gradient. */
    background-image: linear-gradient(
-        45deg,
+        60deg,
         #FF90A5 16.666%, 
         #FF90A5 16.666%, 
-        #FF90A5 33.333%, 
-        #FFFFFF 33.333%, 
-        #FFFFFF 50%, 
-        #FFFFFF 50%, 
-        #FF90A5 66.666%, 
-        #FFFFFF 66.666%, 
-        #FF90A5 83.333%, 
+        #03bcff 33.333%, 
+        #5b4fff 33.333%, 
+        #FF90A5 50%, 
+        #5b4fff 50%, 
+        #03bcff 66.666%, 
+        #5b4fff 66.666%, 
+        #03bcff 83.333%, 
         #FF90A5 83.333%);
   
   /* Set the background size and repeat properties. */
