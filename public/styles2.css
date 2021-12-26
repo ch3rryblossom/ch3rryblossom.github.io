@@ -29,11 +29,11 @@ html::-webkit-scrollbar-track {
 }
 
 
-#nav-headings a{
+#nav-headings a.nav-under {
 		position:relative;
 	}
 
-#nav-headings a:after {    
+#nav-headings a.nav-under:after {    
   background: none repeat scroll 0 0 transparent;
   bottom: -2;
   content: "";
@@ -46,7 +46,7 @@ html::-webkit-scrollbar-track {
   width: 0;
 }
 
-#nav-headings a:hover:after { 
+#nav-headings a.nav-under:hover:after { 
   width: 100%; 
   left: 0; 
 }
