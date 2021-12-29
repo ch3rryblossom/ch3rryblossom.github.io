@@ -118,3 +118,38 @@ html::-webkit-scrollbar-track {
         background-size: 650%;
     }
 }
+
+.shadow-md-light {
+        --tw-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.1), 0 2px 4px -1px rgba(240, 240, 240, 0.06);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.pulseshadow {
+    box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.1);
+    animation: pulser 4s infinite;
+}
+@-webkit-keyframes pulser {
+  0% {
+    -webkit-box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+  }
+  50% {
+      -webkit-box-shadow: 0 4px 6px 2px rgba(255, 209, 218, 0.3);
+  }
+  100% {
+      -webkit-box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+  }
+}
+@keyframes pulser {
+  0% {
+    -moz-box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+  }
+  50% {
+      -moz-box-shadow: 0 4px 6px 2px rgba(255, 209, 218, 0.3);
+      box-shadow: 0 4px 6px 2px rgba(255, 209, 218, 0.3);
+  }
+  100% {
+      -moz-box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+      box-shadow: 0 4px 6px -1px rgba(240, 240, 240, 0.2);
+  }
+}
