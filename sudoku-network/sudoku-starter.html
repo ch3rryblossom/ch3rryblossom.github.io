@@ -16348,7 +16348,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Understanding-and-dissecting-Chowdhary-and-Assisi,-2019">Understanding and dissecting Chowdhary and Assisi, 2019<a class="anchor-link" href="#Understanding-and-dissecting-Chowdhary-and-Assisi,-2019">&#182;</a></h3>
+<h1 id="Understanding-Chowdhary-and-Assisi,-2019">Understanding Chowdhary and Assisi, 2019<a class="anchor-link" href="#Understanding-Chowdhary-and-Assisi,-2019">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -16379,7 +16379,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Imports">Imports<a class="anchor-link" href="#Imports">&#182;</a></h4>
+<h2 id="Two-reciprocally-coupled-oscillators">Two reciprocally coupled oscillators<a class="anchor-link" href="#Two-reciprocally-coupled-oscillators">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Imports/Init">Imports/Init<a class="anchor-link" href="#Imports/Init">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16428,23 +16435,17 @@ You can call clear_cache(&#39;cython&#39;) to delete all files from the cache or
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Two-reciprocally-coupled-excitatory-oscillators">Two reciprocally coupled excitatory oscillators<a class="anchor-link" href="#Two-reciprocally-coupled-excitatory-oscillators">&#182;</a></h4>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tau</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">ms</span>
-
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Constants</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">ms</span>
 <span class="n">I</span> <span class="o">=</span> <span class="mf">1.1</span><span class="o">/</span><span class="n">ms</span>
 <span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">ms</span>
 
+<span class="c1"># Non-dimensionalized constants</span>
 <span class="n">tp</span> <span class="o">=</span> <span class="n">tau</span><span class="o">/</span><span class="n">ms</span>
 <span class="n">curr</span> <span class="o">=</span> <span class="n">I</span><span class="o">*</span><span class="n">ms</span>
 <span class="n">g</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">*</span><span class="n">ms</span>
@@ -16673,12 +16674,20 @@ You can call clear_cache(&#39;cython&#39;) to delete all files from the cache or
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Two-reciprocally-coupled-excitatory-oscillators">Two reciprocally coupled excitatory oscillators<a class="anchor-link" href="#Two-reciprocally-coupled-excitatory-oscillators">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now with excitatory connections</span>
+<span class="c1"># Updates with a constant 0.1 addition upon spike.</span>
 
 <span class="n">start_scope</span><span class="p">()</span>
 
