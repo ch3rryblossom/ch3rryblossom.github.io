@@ -51,6 +51,24 @@ html::-webkit-scrollbar-track {
   left: 0; 
 }
 
+/* If the link is for the same page, no animation */
+#navheadings a.nav-under_current {
+    position:relative;
+}
+
+#navheadings a.nav-under_current:after {    
+background: none repeat scroll 0 0 transparent;
+bottom: -2;
+content: "";
+display: block;
+height: 2px;
+left: 0;
+position: absolute;
+background: rgb(255, 144, 165);
+width: 100%;
+}
+
+
 /* Sarah Fossheim's Gradient Text Overlay */
 
 .brand-text {
