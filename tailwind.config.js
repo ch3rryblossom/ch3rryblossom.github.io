@@ -6,7 +6,8 @@ module.exports = {
       colors: {
         primary: '#202124',
         secondary: '#ff90a5',
-        seccomplement: '#aaff90'
+        seccomplement: '#aaff90',
+        darksec: '#211d1d'
       }
     },
     boxShadow: {
