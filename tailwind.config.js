@@ -7,7 +7,8 @@ module.exports = {
         primary: '#202124',
         secondary: '#ff90a5',
         seccomplement: '#aaff90',
-        darksec: '#211d1d'
+        darksec: '#211d1d',
+        orchid: '#c05cbc'
       }
     },
     boxShadow: {
