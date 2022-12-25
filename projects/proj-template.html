@@ -5,41 +5,15 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-	<link rel="manifest" href="favicons/site.webmanifest">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/favicons/site.webmanifest">
 
-	<title>Jason</title>
-	<link rel="stylesheet" href="public/styles.css">
-	<link rel="stylesheet" href="public/styles2.css">
-	<style>
-		html {
-			scroll-behavior: smooth;
-		}
-	</style>
+	<title>ProjectTemplate</title>
+	<link rel="stylesheet" href="/public/styles.css">
+	<link rel="stylesheet" href="/public/styles2.css">
 </head>
-
-
-<!-- Theme Colours
-
-	Sakura (secondary)
-	rgb(255, 144, 165)
-	#FF90A5
-
-	Dark Grey (primary)
-	rgb(32, 33, 36)
-	#202124
-
-	Secondary Complement (seccomplement) //lime-ish
-	rgb(170, 255, 144)
-	#aaff90
-	
--->
-
-
-<!-- Navbar is from Meraki UI https://merakiui.com/components/navbars -->
-<!-- Icons from Bootstrap Icons https://icons.getbootstrap.com/ -->
 
 <body class="bg-primary">
 	<nav class="pulseshadow bg-primary fixed top-0 w-full h-auto">
@@ -62,16 +36,16 @@
 		    </div>
 		    
 		    <div id="navheadings" class="flex flex-col text-gray-300 lg:flex lg:px-16 lg:-mx-4 lg:flex-row items-center">
-			<a href="#" class="mt-2 lg:mt-0 lg:mx-4 text-seccomplement">
+			<a href="/index.html" class="mt-2 lg:mt-0 lg:mx-4 hover:text-seccomplement">
 				
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
 					<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
 					<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
 				      </svg></a>
-			<a href="projects.html" class="nav-under mt-2 lg:mt-0 lg:mx-4 hover:text-white">Projects</a>
-			<a href="about.html" class="nav-under mt-2 lg:mt-0 lg:mx-4 hover:text-white">About</a>
-			<a href="assets/CV__JasonJoby.pdf" target="_blank" class="mt-2 lg:mt-0 lg:mx-4 hover:text-secondary">CV</a>
-			<a href="extras.html" class="nav-under mt-2 lg:mt-0 lg:mx-4 hover:text-white">Extras</a>
+			<a href="#" class="nav-under_current mt-2 lg:mt-0 lg:mx-4 hover:text-white">Projects</a>
+			<a href="/about.html" class="nav-under mt-2 lg:mt-0 lg:mx-4 hover:text-white">About</a>
+			<a href="/assets/CV__JasonJoby.pdf" target="_blank" class="mt-2 lg:mt-0 lg:mx-4 hover:text-secondary">CV</a>
+			<a href="extras" class="nav-under mt-2 lg:mt-0 lg:mx-4 hover:text-white">Extras</a>
 		    </div>
 		
 		    <div id="social-collapse" class="flex justify-center mt-6 lg:flex lg:mt-0 lg:-mx-2">
@@ -106,45 +80,52 @@
 		</div>
 	    </nav>
 
-	<section class="flex items-center justify-center h-screen text-white font-serif text-5xl">
-		<span class="text-secondary p-1 sm:p-8">hello!</span> <span class="p-1 sm:p-8">my name is jason joby. <br><br>
-		i'm a 4th year undergrad at IISER Pune.</span>
-		<a href="#end"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-gray-500 hover:text-gray-300 bi bi-arrow-down-circle-fill absolute bottom-20 right-1/2" viewBox="0 0 16 16">
-			<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-		      </svg></a>
+	<section class="flex flex-col items-center justify-center">
+		<div class="container flex items-center px-8 py-4 mx-auto overflow-x-auto whitespace-nowrap mt-20">
+			<a href="/index.html" class="text-gray-600 dark:text-gray-200">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+					<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+				      </svg>
+			    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+				<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+			    </svg> -->
+			</a>
+		    
+			<span class="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+			    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+				<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+			    </svg>
+			</span>
+		    
+			<a href="/projects.html" class="text-gray-600 dark:text-gray-200 hover:underline">
+			    Projects
+			</a>
+		    
+			<span class="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+			    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+				<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+			    </svg>
+			</span>
+		    
+			<!-- <a href="#" class="text-gray-600 dark:text-gray-200 hover:underline">
+			    Profile
+			</a>
+		    
+			<span class="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+			    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+				<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+			    </svg>
+			</span> -->
+		    
+			<a href="#" class="text-secondary dark:text-blue-400 hover:underline" style="text-decoration-color: #D1D5DB; text-underline-offset: 4px;">
+			    Template
+			</a>
+		    </div>
+		<div class="max-w-2xl w-4/5 px-8 py-4 m-4 bg-darksec rounded-lg shadow-xl text-white">
+			hello
+		</div>
 	</section>
-
-	<section class="flex items-center justify-center h-48 text-white font-serif text-5xl mb-20">
-		<div class="p-5">i'm interested in the intersection of&nbsp;<span class="text-secondary" id="hero-type"></span></div>
-	</section>
-
-	<section id="end" class="flex items-center justify-center h-12 text-sm font-light text-gray-400 mt-40">
-		made with &nbsp;<svg viewBox="0 0 1792 1792" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="height: 0.8rem;"><path d="M896 1664q-26 0-44-18l-624-602q-10-8-27.5-26T145 952.5 77 855 23.5 734 0 596q0-220 127-344t351-124q62 0 126.5 21.5t120 58T820 276t76 68q36-36 76-68t95.5-68.5 120-58T1314 128q224 0 351 124t127 344q0 221-229 450l-623 600q-18 18-44 18z" fill="#e25555"></path></svg> &nbsp; by Jason, uses&nbsp; <a href="https://v2.tailwindcss.com/">tailwind</a>,&nbsp; <a href="https://www.typeitjs.com/">typit.js</a>,&nbsp; <a href="https://merakiui.com/">merakiui</a> &nbsp;&nbsp; <a href="https://github.com/ch3rryblossom/ch3rryblossom.github.io" data-bs-toggle="tooltip" title="and some more, comments in the source code :)"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-			<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-		      </svg></a>
-	</section>
-
-<!-- Uses typeit.js -->
-<script src="typeit-index.umd.js"></script>
-<script>
-	new TypeIt('#hero-type', {
-		speed: 75,
-		loop: true,
-		breakLines: false,
-		deleteSpeed: 75,
-	})
-	.type("neuro")
-	.pause(500)
-	.delete()
-	.type("comp sci")
-	.pause(500)
-	.delete()
-	.type("maths")
-	.pause(500)
-	.delete()
-	.go();
-</script>
 <script>
 	function toggleNavbar(collapseID1, collapseID2) {
 	  document.getElementById(collapseID1).classList.toggle("hidden");
@@ -153,6 +134,5 @@
 	  document.getElementById(collapseID2).classList.toggle("flex");
 	}
 </script>
-
 </body>
 </html>
