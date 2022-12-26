@@ -15,14 +15,44 @@
 	<link rel="stylesheet" href="public/styles2.css">
 </head>
 
+<style>
+.glitchtext {
+  text-shadow: 2px 0 0 rgba(255, 0, 60, 0.3), -2px 0 0 rgba(255, 255, 255, 0.3);
+}
+.glitchtext-anim {
+  animation: glitchtext 300ms linear infinite;
+}
+@keyframes glitchtext {
+  0% {
+    text-shadow: 2px 0 0 rgba(255, 0, 60, 0.3), -2px 0 0 rgba(255, 255, 255, 0.3);
+  }
+  20% {
+    text-shadow: 0 0 0 rgba(255, 0, 60, 0.3), -2px -1px 0 rgba(255, 255, 255, 0.3);
+  }
+  40% {
+    text-shadow: -2px -2px 0 rgba(255, 0, 60, 0.3),
+      2px 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  60% {
+    text-shadow: -1px 2px 0 rgba(255, 0, 60, 0.3), 0 0 0 rgba(255, 255, 255, 0.3);
+  }
+  80% {
+    text-shadow: 2px -1px 0 rgba(255, 0, 60, 0.3), 2px 2px 0 rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 2px 0 0 rgba(255, 0, 60, 0.3), -2px 0 0 rgba(255, 255, 255, 0.3);
+  }
+}
+</style>
+
 <body class="bg-primary">
 	<nav class="pulseshadow bg-primary fixed top-0 w-full h-auto">
 		<div class="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center">
 		    <div class="lg:flex lg:items-center lg:justify-between">
 			<div class="flex items-center justify-between">
 				<img src="assets/jiji.jpg" style="height:2.3rem;" alt="Jiji" title="Jiji">
-			    <div>
-				<a class="brand-text text-2xl font-bold text-white lg:text-3xl hover:text-gray-300 lg:pl-10" href="index.html">Jaze</a>
+			    <div class="">
+				<a class="brand-text text-2xl font-bold text-white lg:text-3xl hover:text-gray-300 lg:pl-10 glitchtext glitchtext-anim" href="index.html">Jaze</a>
 			    </div>
 	
 			    <!-- Mobile menu button -->
