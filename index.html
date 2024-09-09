@@ -48,7 +48,7 @@
 	    border: 5px outset #000000;
             vertical-align: top;
         }
-        /* Media Query for Smaller Screens */
+        /* Smaller Screens */
         @media (max-width: 768px) {
         .container {
             width: 95%;
@@ -66,14 +66,13 @@
             cursor: pointer;
             z-index: 1000;
         }
-        /* Style when Nyancat mode is toggled on */
+        
         #nyancatToggle.on {
-            background-color: #ff69b4; /* Green color */
+            background-color: #ff69b4; 
         }
-
-        /* Style when Nyancat mode is toggled off */
+        
         #nyancatToggle.off {
-            background-color: #32cd32; /* Original pink color */
+            background-color: #32cd32; 
         }
 @keyframes gradientMove {
     0% {
@@ -100,11 +99,11 @@
   .nav-link.active::after {
     content: "";
     display: inline-block;
-    width: 20px; /* Set the width of the arrow image */
-    height: 12px; /* Set the height of the arrow image */
-    margin-left: 5px; /* Space between the text and the arrow */
-    background-image: url('assets/finger.png'); /* Path to your arrow image */
-    background-size: cover; /* Ensure the image fits within the width and height */
+    width: 20px;
+    height: 12px; 
+    margin-left: 5px; 
+    background-image: url('assets/finger.png'); 
+    background-size: cover;
   }
     </style>
 </head>
@@ -113,13 +112,11 @@
         <div style="text-align: center; margin-top: 5px;">
         <h1 id="welcomeText">Jason's Corner of The Web</h1>
         </div>
-        <!-- Scrolling Marquee -->
         <marquee>Welcome to my website! Enjoy your stay :)</marquee>
 
-        <!-- Table Layout for Navigation and Content -->
         <table cellpadding="10" cellspacing="0">
             <tr>
-                <!-- Left Column: Navigation Menu -->
+                <!-- Navigation Menu -->
                 <td class="nav" width="20%">
                     <h3> </h3>
                     <a href="index.html" class="nav-link">Home</a><br>
@@ -128,7 +125,7 @@
                     <a href="extras-new.html" class="nav-link">Extras</a>
                 </td>
 
-                <!-- Right Column: Main Content -->
+                <!-- Main Content -->
                 <td width="80%">
                     <h2>Home</h2>
                     <p>Hello there! My name is Jason, and this is my webpage. <br> 
@@ -147,7 +144,7 @@
 
 	<div style="text-align: center; margin-top: 5px;">
 		<img src="assets/cat_banner.jpg" alt="Cat Banner" width="150"><br>
-        <!-- Button to toggle Nyancat mode -->
+        <!-- Toggle Nyancat mode -->
         <button id="nyancatToggle">nyancat mode</button>
 	</div>
         <p>For a more modern experience, <a href="index-new.html">click here to switch to my "modern" site</a> (written up pre-chatgpt <3). </p>
@@ -156,7 +153,6 @@
             window.onload = function() {
               // Get the current page's URL
               const currentPage = window.location.pathname.split("/").pop();
-          
               // Get all navigation links
               const navLinks = document.querySelectorAll(".nav-link");
           
@@ -173,7 +169,10 @@
 
 <script>
     /******************************************
-    * Cross-browser cursor trailer script (modernized with toggle)
+    * Cursor trailer script adapted from Brian Caputo's code:
+        * Cross browser cursor trailer script- By Brian Caputo (bcaputo@icdc.com)
+        * Distributed with permission from Brian Caputo by lissaexplains.com
+        * Modified Dec 31st, 02' by DD. This notice must stay intact for use
     ******************************************/
 
     const images = [
