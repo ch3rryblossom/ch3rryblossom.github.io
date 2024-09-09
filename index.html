@@ -48,9 +48,40 @@
 	    border: 5px outset #000000;
             vertical-align: top;
         }
+        /* Media Query for Smaller Screens */
+        @media (max-width: 768px) {
+        .container {
+            width: 95%;
+        }
+        .nav {
+            text-align: center;
+        }
+        }
+        #nyancatToggle { 
+            padding: 8px 8px;
+            font-size: 12px;
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        /* Style when Nyancat mode is toggled on */
+        #nyancatToggle.on {
+            background-color: #ff69b4; /* Green color */
+        }
+
+        /* Style when Nyancat mode is toggled off */
+        #nyancatToggle.off {
+            background-color: #32cd32; /* Original pink color */
+        }
     </style>
 </head>
 <body>
+
+
+
+    
     <div class="container">
         <h1>Welcome to Jason's Corner of The Web!</h1>
 
@@ -76,12 +107,12 @@
                 <td width="80%">
                     <h2>About Me</h2>
                     <p>Hello there! My name is Jason, and this is my webpage. <br> 
-			I've made this page in a fashion that I wanted to make, when I first started browsing the internet. <br> 
-			Also, I think it gets you all the information way quicker!</p> 
+            This is how I wanted my site to look when I had just started browsing the internet.
+			Also, I think it gets you information way quicker!</p> 
 
                     <img src="assets/me2.jpg" alt="Picture of Me" width="100">
 
-                    <p>This website is designed to look like something you'd find in the early 2000s, like the marquee and table layout (and more coming soon :)).</p>
+                    <p>This website is designed to look like something you'd find in the early 2000s: the marquee and table layout (and more coming soon :)).</p>
 
                     <p>Check out my <a href="projects.html">projects</a> or learn more <a href="about.html">about me</a>!</p>
                     <p>Extras will be my favourite section :P</p>
@@ -90,10 +121,98 @@
         </table>
 
 	<div style="text-align: center; margin-top: 5px;">
-		<img src="assets/cat_banner.jpg" alt="Cat Banner" width="150">
+		<img src="assets/cat_banner.jpg" alt="Cat Banner" width="150"><br>
+        <!-- Button to toggle Nyancat mode -->
+        <button id="nyancatToggle">nyancat mode</button>
 	</div>
-        <p>For a more modern experience, <a href="index-new.html">click here to switch to my modern site</a> (written up pre-chatgpt <3). </p>
-	
-    </div>
+        <p>For a more modern experience, <a href="index-new.html">click here to switch to my "modern" site</a> (written up pre-chatgpt <3). </p>
+
+
+<script>
+    /******************************************
+    * Cross-browser cursor trailer script (modernized with toggle)
+    ******************************************/
+
+    const images = [
+        { src: "assets/abstar1.gif", width: 40, height: 40 },
+        { src: "assets/abstar2.gif", width: 40, height: 40 },
+        { src: "assets/abstar3.gif", width: 40, height: 40 },
+        { src: "assets/abstar4.gif", width: 40, height: 40 },
+        { src: "assets/abstar5.gif", width: 40, height: 40 },
+        { src: "assets/th_nyan-cat-anim.gif", width: 40, height: 28 }
+    ];
+
+    const nos = images.length;
+    const rate = 50; // Update frequency in ms
+    const offsetX = 15; // X offset of trail from mouse pointer
+    const offsetY = 15; // Y offset of trail from mouse pointer
+
+    let trailElements = [];
+    let mouseX = 0, mouseY = 0;
+    let nyancatMode = false;
+    let intervalId;
+
+    // Create trail elements
+    function createTrail() {
+        images.forEach((image, index) => {
+            const div = document.createElement('div');
+            div.style.position = 'absolute';
+            div.style.pointerEvents = 'none'; // Avoid blocking interactions
+            div.style.width = `${image.width}px`;
+            div.style.height = `${image.height}px`;
+            div.style.zIndex = index + 1;
+            div.innerHTML = `<img src="${image.src}" width="${image.width}" height="${image.height}" alt="">`;
+            document.body.appendChild(div);
+            trailElements.push(div);
+        });
+    }
+
+    // Update the position of each element in the trail
+    function updateTrail() {
+        if (!nyancatMode) return; // If nyancat mode is off, do nothing
+        for (let i = 0; i < trailElements.length - 1; i++) {
+            const nextElement = trailElements[i + 1];
+            trailElements[i].style.left = nextElement.style.left;
+            trailElements[i].style.top = nextElement.style.top;
+        }
+        trailElements[trailElements.length - 1].style.left = `${mouseX + offsetX}px`;
+        trailElements[trailElements.length - 1].style.top = `${mouseY + offsetY}px`;
+    }
+
+    // Mouse movement event listener
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+    });
+
+    // Toggle nyancat mode
+    function toggleNyancatMode() {
+        nyancatMode = !nyancatMode;
+        if (nyancatMode) {
+            // If turning on nyancat mode, create trail and start interval
+            if (trailElements.length === 0) {
+                createTrail();
+            }
+            intervalId = setInterval(updateTrail, rate);
+            document.getElementById('nyancatToggle').classList.remove('off');
+            document.getElementById('nyancatToggle').classList.add('on');
+        } else {
+            // If turning off nyancat mode, clear interval and hide trail
+            clearInterval(intervalId);
+            trailElements.forEach(div => {
+                div.style.left = '-9999px'; // Move trail elements off-screen
+                div.style.top = '-9999px';
+            });
+            document.getElementById('nyancatToggle').classList.remove('on');
+            document.getElementById('nyancatToggle').classList.add('off');
+        }
+    }
+
+    // Initialize everything on button click
+    document.getElementById('nyancatToggle').addEventListener('click', toggleNyancatMode);
+</script>
+
+
+    
 </body>
 </html>
