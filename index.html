@@ -75,16 +75,44 @@
         #nyancatToggle.off {
             background-color: #32cd32; /* Original pink color */
         }
+@keyframes gradientMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  #welcomeText {
+    font-size: 40px;
+    font-weight: bold;
+    background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 7s ease infinite;
+  }
+
+  .nav-link.active::after {
+    content: "";
+    display: inline-block;
+    width: 20px; /* Set the width of the arrow image */
+    height: 12px; /* Set the height of the arrow image */
+    margin-left: 5px; /* Space between the text and the arrow */
+    background-image: url('assets/finger.png'); /* Path to your arrow image */
+    background-size: cover; /* Ensure the image fits within the width and height */
+  }
     </style>
 </head>
-<body>
-
-
-
-    
+<body>    
     <div class="container">
-        <h1>Welcome to Jason's Corner of The Web!</h1>
-
+        <div style="text-align: center; margin-top: 5px;">
+        <h1 id="welcomeText">Jason's Corner of The Web</h1>
+        </div>
         <!-- Scrolling Marquee -->
         <marquee>Welcome to my website! Enjoy your stay :)</marquee>
 
@@ -94,18 +122,15 @@
                 <!-- Left Column: Navigation Menu -->
                 <td class="nav" width="20%">
                     <h3> </h3>
-                    <a href="index.html">Home</a>
-		    <br>
-                    <a href="projects-new.html">Projects</a>
-		    <br>
-		    <a href="about-new.html">About</a>
-		    <br>
-                    <a href="extras-new.html">Extras</a>
+                    <a href="index.html" class="nav-link">Home</a><br>
+                    <a href="projects-new.html" class="nav-link">Projects</a><br>
+                    <a href="about-new.html" class="nav-link">About</a><br>
+                    <a href="extras-new.html" class="nav-link">Extras</a>
                 </td>
 
                 <!-- Right Column: Main Content -->
                 <td width="80%">
-                    <h2>About Me</h2>
+                    <h2>Home</h2>
                     <p>Hello there! My name is Jason, and this is my webpage. <br> 
             This is how I wanted my site to look when I had just started browsing the internet.
 			Also, I think it gets you information way quicker!</p> 
@@ -127,6 +152,24 @@
 	</div>
         <p>For a more modern experience, <a href="index-new.html">click here to switch to my "modern" site</a> (written up pre-chatgpt <3). </p>
 
+        <script>
+            window.onload = function() {
+              // Get the current page's URL
+              const currentPage = window.location.pathname.split("/").pop();
+          
+              // Get all navigation links
+              const navLinks = document.querySelectorAll(".nav-link");
+          
+              // Loop through links and check if the href matches the current page
+              navLinks.forEach(link => {
+                const linkHref = link.getAttribute("href");
+          
+                if (linkHref === currentPage) {
+                  link.classList.add("active"); // Add 'active' class to the matching link
+                }
+              });
+            };
+          </script>
 
 <script>
     /******************************************
