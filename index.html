@@ -11,17 +11,67 @@
 
     <title>Jason's Webpage</title>
     <style>
+
+        /* Author (of background texture):
+            Temani Afif
+            November 12, 2022 
+        */
+        html {
+            --s: 50px;
+            --c: #191b22; /* main bg color */
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%,#20222a /* lines color */ 68% 70%,#0000 72%;
+            background: 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+              repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+              radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            transition: background 0.2s linear;
+        }
+        /* Dark mode styles when 'dark-mode' class is added to html */
+        html.light-mode {
+            --c: #f2f2f2; /* main bg color */
+            --_c: #0000 66%, #e3e3e3 /* lines color */ 68% 70%, #0000 72%;
+        }
+
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
         body {
-            background-color: #f0f0f0;
+            /* background-color: #f0f0f0; */
             font-family: "Comic Sans MS", sans-serif;
+            color: #ffffff;
+        }
+        body.light-mode {
             color: #000000;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 30px;
+            right: 35px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-size: cover;
+        }
+        /* Light and dark mode SVG images */
+        #themeToggle.light {
+            background-image: url('assets/sun-icon.svg'); /* Path to your light mode SVG */
+        }
+        #themeToggle.dark {
+            background-image: url('assets/moon-icon.svg'); /* Path to your dark mode SVG */
         }
         .container {
             width: 80%;
             margin: 0 auto;
         }
         a {
-            color: blue;
+            color: #FF90A5;
             text-decoration: none;
         }
         a:hover {
@@ -38,7 +88,7 @@
             color: #000000;
         }
         marquee {
-            color: #FF0000;
+            color: #FF90A5;
             margin-bottom: 20px;
         }
         table {
@@ -112,7 +162,7 @@
         <div style="text-align: center; margin-top: 5px;">
         <h1 id="welcomeText">Jason's Corner of The Web</h1>
         </div>
-        <marquee>Welcome to my website! Enjoy your stay :)</marquee>
+        <marquee>Welcome to my website! Enjoy your stay!  &#x14da;&#x160f;&#x15e2; </marquee>
 
         <table cellpadding="10" cellspacing="0">
             <tr>
@@ -128,6 +178,7 @@
                 <!-- Main Content -->
                 <td width="80%">
                     <h2>Home</h2>
+                    <hr>
                     <p>Hello there! My name is Jason, and this is my webpage. <br> 
             This is how I wanted my site to look when I had just started browsing the internet.
 			</p> 
@@ -147,7 +198,8 @@
         <!-- Toggle Nyancat mode -->
         <button id="nyancatToggle">nyancat mode</button>
 	</div>
-        <p>For a more modern experience, <a href="index-new.html">click here to switch to my "modern" site</a> (written up pre-chatgpt <3). </p>
+    <div id="themeToggle" class="light"></div>
+            <p><h6><a href="index-new.html">Click here</a> to switch to my "modern" site (written up pre-chatgpt <3).</h6></p>
 
         <script>
             window.onload = function() {
@@ -166,6 +218,28 @@
               });
             };
           </script>
+
+<script>
+    // Get references to HTML and the toggle button
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+    const toggleButton = document.getElementById('themeToggle');
+
+    // Event listener for toggle button
+    toggleButton.addEventListener('click', () => {
+        htmlElement.classList.toggle('light-mode');
+        bodyElement.classList.toggle('light-mode');
+        
+        // Switch the button icon between light and dark mode
+        if (htmlElement.classList.contains('light-mode')) {
+            toggleButton.classList.remove('light');
+            toggleButton.classList.add('dark');
+        } else {
+            toggleButton.classList.remove('dark');
+            toggleButton.classList.add('light');
+        }
+    });
+</script>
 
 <script>
     /******************************************
