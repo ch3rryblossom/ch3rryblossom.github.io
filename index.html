@@ -59,14 +59,15 @@
             height: 20px;
             background-size: cover;
         }
-        /* Light and dark mode SVG images */
+        /* Light and dark mode SVGs for the button */
         #themeToggle.light {
             background-image: url('assets/sun-icon.svg'); /* Path to your light mode SVG */
         }
         #themeToggle.dark {
             background-image: url('assets/moon-icon.svg'); /* Path to your dark mode SVG */
         }
-        .container {
+
+        .main-container {
             width: 80%;
             margin: 0 auto;
         }
@@ -98,24 +99,7 @@
 	    border: 5px outset #000000;
             vertical-align: top;
         }
-        /* Smaller Screens */
-        @media (max-width: 768px) {
-        .container {
-            width: 95%;
-        }
-        .nav {
-            text-align: center;
-        }
-        #themeToggle {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            cursor: pointer;
-            width: 15px;
-            height: 15px;
-            background-size: cover;
-        }
-        }
+        
         #nyancatToggle { 
             padding: 8px 8px;
             font-size: 12px;
@@ -133,42 +117,62 @@
         #nyancatToggle.off {
             background-color: #32cd32; 
         }
-@keyframes gradientMove {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
 
-  #welcomeText {
-    font-size: 40px;
-    font-weight: bold;
-    background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 7s ease infinite;
-  }
+        @keyframes gradientMove {
+            0% {
+            background-position: 0% 50%;
+            }
+            50% {
+            background-position: 100% 50%;
+            }
+            100% {
+            background-position: 0% 50%;
+            }
+        }
+        #welcomeText {
+            font-size: 40px;
+            font-weight: bold;
+            background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease infinite;
+        }
 
-  .nav-link.active::after {
-    content: "";
-    display: inline-block;
-    width: 22px;
-    height: 22px; 
-    margin-left: 10px; 
-    background-image: url('assets/pointing-left.svg'); 
-    background-size: cover;
-    vertical-align: -5px;
-  }
+        .nav-link.active::after {
+            content: "";
+            display: inline-block;
+            width: 22px;
+            height: 22px; 
+            margin-left: 10px; 
+            background-image: url('assets/pointing-left.svg'); 
+            background-size: cover;
+            vertical-align: -5px;
+        }
+
+        /* Smaller Screens */
+        @media (max-width: 768px) 
+        {
+            .main-container {
+                width: 95%;
+            }
+            .nav {
+                text-align: center;
+            }
+            #themeToggle {
+                position: fixed;
+                top: 15px;
+                right: 20px;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                background-size: cover;
+            }
+        }
     </style>
 </head>
 <body>    
-    <div class="container">
+    <div class="main-container">
         <div style="text-align: center; margin-top: 5px;">
         <h1 id="welcomeText">Jason's Corner of The Web</h1>
         </div>
@@ -194,9 +198,16 @@
             This is how I wanted my site to look when I had just started browsing the internet.
 			</p> 
 
-                    <div><img src="assets/me2.jpg" alt="Picture of me" title="Picture of me" width="100"> jason &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div><div><img src="assets/lili.jpg" alt="Lily (sweet baby)" title="Lily (sweet baby)" width="100"> lily </div><div><img src="assets/biccu.jpg" alt="Biscuit (foolish baby)" title="Biscuit (foolish baby)" width="100"> biccu </div>
-
-                    <p>This website is designed to look like something you'd find in the early 2000s: the marquee and table layout (and more coming soon :)).</p>
+            <div style="display: inline-block">
+                <img src="assets/me2.jpg" alt="Picture of me" title="Picture of me" width="100"> jason
+              </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <div style="display: inline-block">
+                <img src="assets/lili.jpg" alt="Lily (sweet baby)" title="Lily (sweet baby)" width="100"> lily (cat)
+              </div>&nbsp;&nbsp;
+              <div style="display: inline-block">
+                <img src="assets/biccu.jpg" alt="Biscuit (foolish baby)" title="Biscuit (foolish baby)" width="100"> biccu (cat)
+              </div>
+                    <p>This website is designed to look like something you'd find in the early 2000s. (more coming soon :)).</p>
 
                     <p>Check out my <a href="projects.html">projects</a> or learn more <a href="about.html">about me</a>!</p>
                     <p>Extras will be my favourite section :P</p>
@@ -210,10 +221,11 @@
 	<div style="text-align: center; margin-top: 5px;">
 		<img src="assets/cat_banner.jpg" alt="Cat Banner: No time spent with a cat is wasted" width="100"><br>
         <!-- Toggle Nyancat mode -->
-        <button id="nyancatToggle">nyancat mode</button>
+        <button id="nyancatToggle">nyancat mode</button><br><br>
 	</div>
     <div id="themeToggle" class="light"></div>
-            <p><h6><a href="index-new.html">Click here</a> to switch to my "modern" site (proudly written up pre-chatgpt <3).</h6></p>
+    Leave me a message? <a href="http://users.smartgb.com/g/g.php?a=s&i=g19-01653-a4"><img alt="Guestbook" border="0" src="http://extras.smartgb.com/b/gb_80x40.gif" width="50" height="25" style="vertical-align: middle;"></a>
+    <p><h6><a href="index-new.html">Click here</a> to switch to my "modern" site (proudly written up pre-chatgpt <3).</h6></p>
 
         <script>
             window.onload = function() {
