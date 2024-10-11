@@ -165,14 +165,14 @@
 
 	/* Initially hide the more-content div */
 	.project-item .more-content {
-	display: none;
+        max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.3s ease;
 	}
 
 	/* Style for expanded state */
 	.project-item.expanded .more-content {
-	display: block;
+        max-height: 500px;
 	}
 
 
