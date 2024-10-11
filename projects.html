@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+
+    <title>Jason's Projects</title>
+    <style>
+
+        /* Author (of background texture):
+            Temani Afif
+            November 12, 2022 
+        */
+        html {
+            --s: 50px;
+            --c: #191b22; /* main bg color */
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%,#20222a /* lines color */ 68% 70%,#0000 72%;
+            background: 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+              repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+              radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            transition: background 0.2s linear;
+        }
+        /* Dark mode styles when 'dark-mode' class is added to html */
+        html.light-mode {
+            --c: #f2f2f2; /* main bg color */
+            --_c: #0000 66%, #e3e3e3 /* lines color */ 68% 70%, #0000 72%;
+        }
+
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+        body {
+            /* background-color: #f0f0f0; */
+            font-family: "Comic Sans MS", sans-serif;
+            color: #ffffff;
+        }
+        body.light-mode {
+            color: #000000;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 30px;
+            right: 35px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-size: cover;
+        }
+        /* Light and dark mode SVGs for the button */
+        #themeToggle.light {
+            background-image: url('assets/sun-icon.svg'); /* Path to your light mode SVG */
+        }
+        #themeToggle.dark {
+            background-image: url('assets/moon-icon.svg'); /* Path to your dark mode SVG */
+        }
+
+        .main-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        a {
+            color: #FF90A5;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .nav {
+            background-color: #FF90A5;
+            padding: 10px;
+            text-align: left;
+        }
+        .nav a {
+            display: block;
+            margin: 10px 0;
+            color: #000000;
+        }
+        marquee {
+            color: #FF90A5;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+	    border: 5px outset #000000;
+            vertical-align: top;
+        }
+
+	.project-item {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #FF90A5;
+        }
+        
+	img {
+            vertical-align: middle;
+        }
+
+        #nyancatToggle { 
+            padding: 8px 8px;
+            font-size: 12px;
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        #nyancatToggle.on {
+            background-color: #ff69b4; 
+        }
+        
+        #nyancatToggle.off {
+            background-color: #32cd32; 
+        }
+
+        @keyframes gradientMove {
+            0% {
+            background-position: 0% 50%;
+            }
+            50% {
+            background-position: 100% 50%;
+            }
+            100% {
+            background-position: 0% 50%;
+            }
+        }
+        #welcomeText {
+            font-size: 40px;
+            font-weight: bold;
+            background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease infinite;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            display: inline-block;
+            width: 22px;
+            height: 22px; 
+            margin-left: 10px; 
+            background-image: url('assets/pointing-left.svg'); 
+            background-size: cover;
+            vertical-align: -5px;
+        }
+
+	/* Initially hide the more-content div */
+	.project-item .more-content {
+	display: none;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+	}
+
+	/* Style for expanded state */
+	.project-item.expanded .more-content {
+	display: block;
+	}
+
+
+        /* Smaller Screens */
+        @media (max-width: 768px) 
+        {
+            .main-container {
+                width: 95%;
+            }
+            .nav {
+                text-align: center;
+            }
+            #themeToggle {
+                position: fixed;
+                top: 15px;
+                right: 20px;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                background-size: cover;
+            }
+        }
+    </style>
+</head>
+<>
+    <div class="main-container">
+        <div style="text-align: center; margin-top: 5px;">
+            <h1 id="welcomeText">Jason's Projects</h1>
+        </div>
+	<marquee>Welcome to my website! Enjoy your stay!  &#x14da;&#x160f;&#x15e2; </marquee>
+
+        <table cellpadding="10" cellspacing="0">
+            <tr>
+                <!-- Navigation Menu -->
+                <td class="nav" width="20%" style="position: relative;">
+                    <h3> </h3>
+                    <a href="index.html" class="nav-link">Home</a><br>
+                    <a href="projects-new.html" class="nav-link active">Projects</a><br>
+                    <a href="about-new.html" class="nav-link">About</a><br>
+                    <a href="extras-new.html" class="nav-link">Extras</a>
+                    <img src="assets/cats/linea_anluorbarkat.gif" alt="cats" title="cats" style="position: absolute; bottom: 0; left: 0; max-width: 100%; height: auto;" width="1000">
+                </td>
+
+                <!-- Main Content -->
+                <td width="80%">
+			<a href="#" id="expand-all">Expand all</a> | <a href="#" id="close-all">Close all</a>
+                    <!-- Projects List -->
+			<div class="project-item">
+				<h2>Research Assistantship @ <a href="https://sites.google.com/site/visionlabiisc/"><u>VisionLab, IISc</u></a></h2>
+				<h3>Jun 2024 - Present</h3>
+				<p>Supervisor: Prof. SP Arun<br>
+				Location: IISc, Bangalore</p>
+				<p><strong>Project:</strong> Understanding agency encoding in the brain and analysis of neural recordings in sleeping bonnet macaques. Contributed equally to task design, macaque training, and data collection alongside Sudhanshu Bharadwaj.</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Designed "game-playing" tasks to study brain encoding of agency under reward-based conditions.</li>
+					<li>Analyzed neural recordings during sleep and explored REM/NREM phases using LFP/MUA data.</li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>Masters Thesis Project @ VisionLab, IISc</h2>
+				<h3>Jun 2023 - Apr 2024</h3>
+				<p>Supervisor: Prof. SP Arun<br>
+				Location: IISc, Bangalore</p>
+				<p><strong>Project Title:</strong> Neural Correlates of Sleep and Game-Playing in Bonnet Macaques</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Chapter 1: Patterns of neural activity during sleep (MUA/LFP signals), comparing wakefulness and sleep phases. <a href="http://dr.iiserpune.ac.in:8080/xmlui/handle/123456789/8855"><u>MS Thesis</u></a></li>
+					<li>Chapter 2: Training macaques to perform maze-like tasks in MonkeyLogic. Joint work with Sudhanshu Bharadwaj. <a href="http://dr.iiserpune.ac.in:8080/xmlui/handle/123456789/8855"><u>MS Thesis</u></a></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>Undergraduate Research @ <a href="https://assisilab.github.io/"><u>Theoretical Neuroscience Lab</u></a></h2>
+				<h3>Aug 2022 - Apr 2023</h3>
+				<p>Supervisor: Dr. Collins Assisi<br>
+				Location: IISER Pune</p>
+				<p><strong>Project Title:</strong> Chaos in “Sudoku” Neuronal Networks</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Modeled chaotic dynamics in neuronal networks using excitation-inhibition balance, with Sudoku-inspired connectivity.</li>
+					<li>Explored transitions between limit cycles using Mirollo-Strogatz coupled oscillators and synaptic plasticity.</li>
+					</ul>
+					Links: 
+					<a href="https://drive.google.com/file/d/1dJVUaUtQR3siXSKYPED4_te-Npuf8ZXP/view?usp=sharing"><u>Nov '22 Poster</u></a> |
+					<a href="https://drive.google.com/file/d/1YJi0iwmeONrqNkaFm7DtERLFYcwTedFc/view?usp=sharing"><u>Jan '23 Poster</u></a> |
+					<a href="https://docs.google.com/document/d/1FbtyEVBMc7KnoyGhlfJW1FmzopaNeqS0irhr_hFgMo4/edit?usp=sharing"><u>Endsemester Report</u></a> |
+					<a href="https://github.com/ch3rryblossom/sudoku-network"><u>GitHub</u></a> |
+					<a href="https://ch3rryblossom.github.io/sudoku-network/"><u>JupyterBook</u></a>
+				</div>
+				
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>Neuromatch Academy - Computational Neuroscience</h2>
+				<h3>July 2022</h3>
+				<p>Student @ NMA Computational Neuroscience 2022<br>
+				Location: International Virtual School</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Attended 3-week program focused on computational neuroscience (Bayesian inference, Hidden Markov models, etc.).</li>
+					<li>Analyzed the <a href="https://portal.brain-map.org/explore/circuits/visual-behavior-2p"><u>Allen Institute Visual Behavior 2P dataset</u></a> to study cortical interneuron response to novelty.</li>
+					</ul>
+					Links: 
+					<a href="https://docs.google.com/presentation/d/1k9Z07F3PKwpqrHf5BbjlWbcCin6_YEwTVstto1TQpJ0/edit?usp=sharing"><u>Slides</u></a> |
+					<a href="https://colab.research.google.com/drive/18NHkvBgOiI5Hc_DR8AQNUrZnPPmTe8-U?usp=sharing"><u>Colab Notebook</u></a>
+				</div>
+				
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>Undergraduate Research Project @ IIT Bombay</h2>
+				<h3>Jan 2022 - Apr 2022</h3>
+				<p>Supervisors: Prof. Rohit Manchanda, Nitin Anisetty<br>
+				Location: Virtual</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Gained proficiency in NEURON software for cellular neurophysiology modeling.</li>
+					<li>Studied variable time-step integration using Cvode in NEURON.</li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>iGEM 2021 - Team IISER-Pune-India</h2>
+				<h3>Feb 2021 - Nov 2021</h3>
+				<p>Supervisor: Prof. Thomas Pucadyil<br>
+				Location: International Competition</p>
+				<p><strong>Project Title:</strong> Recycling CO2 for Bio-manufacturing Using a Co-culture of Cyanobacteria and E. coli</p>
+				<a href="#" class="more-link">More?</a>
+				<div class="more-content">
+					<ul>
+					<li>Won gold medal, nominated for Best Manufacturing Project and Best Education.</li>
+					<li>Worked on dry lab modeling using Flux Balance Analysis (MATLAB).</li>
+					<li>Built project website!</li>
+					</ul>
+					Links: 
+					<a href="https://2021.igem.org/Team:IISER-Pune-India"><u>iGEM Website</u></a> |
+					<a href="https://github.com/ch3rryblossom/2021-wiki"><u>GitHub</u></a>
+				</div>
+				
+			</div>
+			<hr>
+			<div class="project-item">
+				<h2>Chrome Extension</h2>
+				<h3>January 2022</h3>
+				<p><strong>SAM-autocaptcha</strong></p>
+				<p>Chrome Extension<br>
+				Google Chrome extension that automatically fills in the "CAPTCHA" form element for IISER Pune's SAM portal (Academic ERP) login form.</p>
+			</div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin-top: 5px;">
+            <img src="assets/cat_banner.jpg" alt="Cat Banner: No time spent with a cat is wasted" width="100"><br>
+        </div>
+        <div id="themeToggle" class="light"></div>
+    </div>
+
+    <!-- Script to toggle 'More?' section in each project
+     		and the 'Expand all' and 'Close all' buttons -->
+    <script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    const moreLinks = document.querySelectorAll(".more-link");
+	    const expandAllBtn = document.getElementById("expand-all");
+	    const closeAllBtn = document.getElementById("close-all");
+	    const projectItems = document.querySelectorAll(".project-item");
+	
+	    // Toggle individual sections
+	    moreLinks.forEach(link => {
+		link.addEventListener("click", function(event) {
+		    event.preventDefault();
+		    const parentItem = link.closest(".project-item");
+		    parentItem.classList.toggle("expanded");
+		});
+	    });
+	
+	    // Expand all sections
+	    expandAllBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		projectItems.forEach(item => {
+		    item.classList.add("expanded");
+		});
+	    });
+	
+	    // Close all sections
+	    closeAllBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		projectItems.forEach(item => {
+		    item.classList.remove("expanded");
+		});
+	    });
+	});
+	</script>	
+
+
+    <!-- Theme toggle script (same as index page) -->
+    <script>
+        const htmlElement = document.documentElement;
+        const bodyElement = document.body;
+        const toggleButton = document.getElementById('themeToggle');
+
+        toggleButton.addEventListener('click', () => {
+            htmlElement.classList.toggle('light-mode');
+            bodyElement.classList.toggle('light-mode');
+
+            if (htmlElement.classList.contains('light-mode')) {
+                toggleButton.classList.remove('light');
+                toggleButton.classList.add('dark');
+            } else {
+                toggleButton.classList.remove('dark');
+                toggleButton.classList.add('light');
+            }
+        });
+    </script>
+</body>
+</html>
