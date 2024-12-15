@@ -262,21 +262,38 @@
     const bodyElement = document.body;
     const toggleButton = document.getElementById('themeToggle');
 
-    // Event listener for toggle button
-    toggleButton.addEventListener('click', () => {
-        htmlElement.classList.toggle('light-mode');
-        bodyElement.classList.toggle('light-mode');
-        
-        // Switch the button icon between light and dark mode
-        if (htmlElement.classList.contains('light-mode')) {
+    // Function to apply the theme
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            htmlElement.classList.add('light-mode');
+            bodyElement.classList.add('light-mode');
             toggleButton.classList.remove('light');
             toggleButton.classList.add('dark');
         } else {
+            htmlElement.classList.remove('light-mode');
+            bodyElement.classList.remove('light-mode');
             toggleButton.classList.remove('dark');
             toggleButton.classList.add('light');
         }
+    }
+
+    // Read the saved theme from localStorage on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    }
+
+    // Event listener for toggle button
+    toggleButton.addEventListener('click', () => {
+        const currentTheme = htmlElement.classList.contains('light-mode') ? 'light' : 'dark';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Apply the new theme and save it to localStorage
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
     });
 </script>
+
 
 <script>
     /******************************************
