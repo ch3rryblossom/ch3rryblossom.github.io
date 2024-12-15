@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+	<link rel="manifest" href="favicons/site.webmanifest">
+
+    <title>Jason's Webpage</title>
+    <style>
+
+        /* Author (of background texture):
+            Temani Afif
+            November 12, 2022 
+        */
+        html {
+            --s: 50px;
+            --c: #191b22; /* main bg color */
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%,#20222a /* lines color */ 68% 70%,#0000 72%;
+            background: 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+              repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+              radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            transition: background 0.2s linear;
+        }
+        /* Dark mode styles when 'dark-mode' class is added to html */
+        html.light-mode {
+            --c: #f2f2f2; /* main bg color */
+            --_c: #0000 66%, #e3e3e3 /* lines color */ 68% 70%, #0000 72%;
+        }
+
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+        body {
+            /* background-color: #f0f0f0; */
+            font-family: "Comic Sans MS", sans-serif;
+            color: #ffffff;
+        }
+        body.light-mode {
+            color: #000000;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 30px;
+            right: 35px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-size: cover;
+        }
+        /* Light and dark mode SVGs for the button */
+        #themeToggle.light {
+            background-image: url('assets/sun-icon.svg'); /* Path to your light mode SVG */
+        }
+        #themeToggle.dark {
+            background-image: url('assets/moon-icon.svg'); /* Path to your dark mode SVG */
+        }
+
+        .main-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        a {
+            color: #FF90A5;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .nav {
+            background-color: #FF90A5;
+            padding: 10px;
+            text-align: left;
+        }
+        .nav a {
+            display: block;
+            margin: 10px 0;
+            color: #000000;
+        }
+        marquee {
+            color: #FF90A5;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+	    border: 5px outset #000000;
+            vertical-align: top;
+        }
+        
+        #nyancatToggle { 
+            padding: 8px 8px;
+            font-size: 12px;
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        #nyancatToggle.on {
+            background-color: #ff69b4; 
+        }
+        
+        #nyancatToggle.off {
+            background-color: #32cd32; 
+        }
+
+        @keyframes gradientMove {
+            0% {
+            background-position: 0% 50%;
+            }
+            50% {
+            background-position: 100% 50%;
+            }
+            100% {
+            background-position: 0% 50%;
+            }
+        }
+        #welcomeText {
+            font-size: 40px;
+            font-weight: bold;
+            background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease infinite;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            display: inline-block;
+            width: 22px;
+            height: 22px; 
+            margin-left: 10px; 
+            background-image: url('assets/pointing-left.svg'); 
+            background-size: cover;
+            vertical-align: -5px;
+        }
+
+        /* Smaller Screens */
+        @media (max-width: 768px) 
+        {
+            .main-container {
+                width: 95%;
+            }
+            .nav {
+                text-align: center;
+            }
+            #themeToggle {
+                position: fixed;
+                top: 15px;
+                right: 20px;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                background-size: cover;
+            }
+        }
+    </style>
+</head>
+<body>    
+    <div class="main-container">
+        <div style="text-align: center; margin-top: 5px;">
+            <h1 id="welcomeText">Jason (himself)</h1>
+        </div>
+        <marquee>Welcome to my website! Enjoy your stay!  &#x14da;&#x160f;&#x15e2; </marquee>
+
+        <table cellpadding="10" cellspacing="0">
+            <tr>
+                <!-- Navigation Menu -->
+                <td class="nav" width="20%" style="position: relative;">
+                    <h3> </h3>
+                    <a href="index.html" class="nav-link">Home</a><br>
+                    <a href="resume.html" class="nav-link">Resume</a><br>
+                    <a href="about.html" class="nav-link">About</a><br>
+                    <img src="assets/cats/linea_anluorbarkat.gif" alt="cats" title="cats" style="position: absolute; bottom: 0; left: 0; max-width: 100%; height: auto;" width="1000">
+                </td>
+
+		<!-- Main Content -->
+		<td width="80%">
+			<h2><img src="assets/cats/Home_cat.gif" alt="cats" title="cats" style="max-width: 100%; height: auto;" width="100"></h2>
+			<hr>
+			<p>Hi! <br>
+			
+			</p>
+			<img src="assets/cats/cat-relaxing.gif" alt="Kitten relaxing on hammock" title="Kitten relaxing" width="100">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/cats/AnnWalkCat.gif" alt="Kitten walking" title="Kitten walking" width="50">
+			&nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/cats/cats0030.gif" alt="Kitten sleepin" title="Kitten sleepin" width="150">
+			&nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/cats/Catmail.gif" alt="Kitten in mailbox" title="Kitten in mailbox" width="90">
+			&nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/cats/catremote.gif" alt="Cat n TV" title="Cat n TV" width="150">
+			<br><br>
+			<img src="assets/cats/line06_01.gif" alt="cat running" title="cat running" style="max-width: 100%; height: auto;" width="1000">
+		</td>
+            </tr>
+        </table>
+
+	<div style="text-align: center; margin-top: 5px;">
+		<img src="assets/cat_banner.jpg" alt="Cat Banner: No time spent with a cat is wasted" width="100"><br>
+        <!-- Toggle Nyancat mode -->
+        <button id="nyancatToggle">nyancat mode</button><br><br>
+	</div>
+    <div id="themeToggle" class="light"></div>
+    
+<!-- Scripts -->
+<script>
+	window.onload = function() {
+	// Get the current page's URL
+	const currentPage = window.location.pathname.split("/").pop();
+	// Get all navigation links
+	const navLinks = document.querySelectorAll(".nav-link");
+	
+	// Loop through links and check if the href matches the current page
+	navLinks.forEach(link => {
+	const linkHref = link.getAttribute("href");
+	
+	if (linkHref === currentPage || (currentPage === "" && linkHref === "index.html")) {
+		link.classList.add("active"); // Add 'active' class to the matching link
+	}
+	});
+	};
+</script>
+
+<script>
+    // Get references to HTML and the toggle button
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+    const toggleButton = document.getElementById('themeToggle');
+
+    // Function to apply the theme
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            htmlElement.classList.add('light-mode');
+            bodyElement.classList.add('light-mode');
+            toggleButton.classList.remove('light');
+            toggleButton.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('light-mode');
+            bodyElement.classList.remove('light-mode');
+            toggleButton.classList.remove('dark');
+            toggleButton.classList.add('light');
+        }
+    }
+
+    // Read the saved theme from localStorage on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    }
+
+    // Event listener for toggle button
+    toggleButton.addEventListener('click', () => {
+        const currentTheme = htmlElement.classList.contains('light-mode') ? 'light' : 'dark';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Apply the new theme and save it to localStorage
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+</script>
+
+
+<script>
+    /******************************************
+    * Cursor trailer script adapted from Brian Caputo's code:
+        * Cross browser cursor trailer script- By Brian Caputo (bcaputo@icdc.com)
+        * Distributed with permission from Brian Caputo by lissaexplains.com
+        * Modified Dec 31st, 02' by DD. This notice must stay intact for use
+    ******************************************/
+
+    const images = [
+        { src: "assets/abstar1.gif", width: 40, height: 40 },
+        { src: "assets/abstar2.gif", width: 40, height: 40 },
+        { src: "assets/abstar3.gif", width: 40, height: 40 },
+        { src: "assets/abstar4.gif", width: 40, height: 40 },
+        { src: "assets/abstar5.gif", width: 40, height: 40 },
+        { src: "assets/th_nyan-cat-anim.gif", width: 40, height: 28 }
+    ];
+
+    const nos = images.length;
+    const rate = 50; // Update frequency in ms
+    const offsetX = 15; // X offset of trail from mouse pointer
+    const offsetY = 15; // Y offset of trail from mouse pointer
+
+    let trailElements = [];
+    let mouseX = 0, mouseY = 0;
+    let nyancatMode = false;
+    let intervalId;
+
+    // Create trail elements
+    function createTrail() {
+        images.forEach((image, index) => {
+            const div = document.createElement('div');
+            div.style.position = 'absolute';
+            div.style.pointerEvents = 'none'; // Avoid blocking interactions
+            div.style.width = `${image.width}px`;
+            div.style.height = `${image.height}px`;
+            div.style.zIndex = index + 1;
+            div.innerHTML = `<img src="${image.src}" width="${image.width}" height="${image.height}" alt="">`;
+            document.body.appendChild(div);
+            trailElements.push(div);
+        });
+    }
+
+    // Update the position of each element in the trail
+    function updateTrail() {
+        if (!nyancatMode) return; // If nyancat mode is off, do nothing
+        for (let i = 0; i < trailElements.length - 1; i++) {
+            const nextElement = trailElements[i + 1];
+            trailElements[i].style.left = nextElement.style.left;
+            trailElements[i].style.top = nextElement.style.top;
+        }
+        trailElements[trailElements.length - 1].style.left = `${mouseX + offsetX}px`;
+        trailElements[trailElements.length - 1].style.top = `${mouseY + offsetY}px`;
+    }
+
+    // Mouse movement event listener
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+    });
+
+    // Toggle nyancat mode
+    function toggleNyancatMode() {
+        nyancatMode = !nyancatMode;
+        if (nyancatMode) {
+            // If turning on nyancat mode, create trail and start interval
+            if (trailElements.length === 0) {
+                createTrail();
+            }
+            intervalId = setInterval(updateTrail, rate);
+            document.getElementById('nyancatToggle').classList.remove('off');
+            document.getElementById('nyancatToggle').classList.add('on');
+        } else {
+            // If turning off nyancat mode, clear interval and hide trail
+            clearInterval(intervalId);
+            trailElements.forEach(div => {
+                div.style.left = '-9999px'; // Move trail elements off-screen
+                div.style.top = '-9999px';
+            });
+            document.getElementById('nyancatToggle').classList.remove('on');
+            document.getElementById('nyancatToggle').classList.add('off');
+        }
+    }
+
+    // Initialize everything on button click
+    document.getElementById('nyancatToggle').addEventListener('click', toggleNyancatMode);
+</script>
+
+</body>
+</html>
