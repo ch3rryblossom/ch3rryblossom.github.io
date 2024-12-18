@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+
+    <title>Jason's Blog</title>
+    <style>
+
+        /* Author (of background texture):
+            Temani Afif
+            November 12, 2022 
+        */
+        html {
+            --s: 50px;
+            --c: #191b22; /* main bg color */
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%,#20222a /* lines color */ 68% 70%,#0000 72%;
+            background: 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+              repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+              radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            transition: background 0.2s linear;
+        }
+        /* Dark mode styles when 'dark-mode' class is added to html */
+        html.light-mode {
+            --c: #f2f2f2; /* main bg color */
+            --_c: #0000 66%, #e3e3e3 /* lines color */ 68% 70%, #0000 72%;
+        }
+
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+        body {
+            /* background-color: #f0f0f0; */
+            font-family: "Comic Sans MS", sans-serif;
+            color: #ffffff;
+        }
+        body.light-mode {
+            color: #000000;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 30px;
+            right: 35px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-size: cover;
+        }
+        /* Light and dark mode SVGs for the button */
+        #themeToggle.light {
+            background-image: url('assets/sun-icon.svg'); /* Path to your light mode SVG */
+        }
+        #themeToggle.dark {
+            background-image: url('assets/moon-icon.svg'); /* Path to your dark mode SVG */
+        }
+
+        .main-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        a {
+            color: #FF90A5;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .nav {
+            background-color: #FF90A5;
+            padding: 10px;
+            text-align: left;
+        }
+        .nav a {
+            display: block;
+            margin: 10px 0;
+            color: #000000;
+        }
+        marquee {
+            color: #FF90A5;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+	    border: 5px outset #000000;
+            vertical-align: top;
+        }
+
+	.project-item {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #FF90A5;
+        }
+        
+	img {
+            vertical-align: middle;
+        }
+
+        #nyancatToggle { 
+            padding: 8px 8px;
+            font-size: 12px;
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        #nyancatToggle.on {
+            background-color: #ff69b4; 
+        }
+        
+        #nyancatToggle.off {
+            background-color: #32cd32; 
+        }
+
+        @keyframes gradientMove {
+            0% {
+            background-position: 0% 50%;
+            }
+            50% {
+            background-position: 100% 50%;
+            }
+            100% {
+            background-position: 0% 50%;
+            }
+        }
+        #welcomeText {
+            font-size: 40px;
+            font-weight: bold;
+            background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease infinite;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            display: inline-block;
+            width: 22px;
+            height: 22px; 
+            margin-left: 10px; 
+            background-image: url('assets/pointing-left.svg'); 
+            background-size: cover;
+            vertical-align: -5px;
+        }
+
+	/* Initially hide the more-content div */
+	.project-item .more-content {
+        max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+	}
+
+	/* Style for expanded state */
+	.project-item.expanded .more-content {
+        max-height: 500px;
+	}
+
+    .more-content li {
+        margin-bottom: 10px; /* Adjust the value to your desired spacing */
+    }
+
+    .project-image {
+        float: right;
+        margin-left: 15px;
+        margin-bottom: 10px;
+    }
+
+    .project-image img {
+        border: 2px solid #FF90A5; /* Optional border for styling */
+        border-radius: 5px;        /* Rounded corners */
+        max-width: 100%;
+        height: auto;
+    }
+
+/* CSS Rules for the figure tags inside .image-container */
+.image-container figure {
+    text-align: center; 
+    flex: 1; 
+    max-width: 300px; 
+    max-height: 300px; 
+    margin: 0 10px; 
+    overflow: hidden; 
+}
+
+.image-container img {
+    width: 100%; 
+    height: auto; 
+    border-radius: 5px; 
+    object-fit: contain; 
+}
+
+.image-container figcaption {
+    margin-top: 5px;
+}
+
+        /* Smaller Screens */
+        @media (max-width: 768px) 
+        {
+            .main-container {
+                width: 95%;
+            }
+            .nav {
+                text-align: center;
+            }
+            #themeToggle {
+                position: fixed;
+                top: 15px;
+                right: 20px;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                background-size: cover;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div style="text-align: center; margin-top: 5px;">
+            <h1 id="welcomeText">Jason's Blog</h1>
+        </div>
+	<marquee>Updates on my life? &#x14da;&#x160f;&#x15e2; </marquee>
+
+        <table cellpadding="10" cellspacing="0">
+            <tr>
+                <!-- Navigation Menu -->
+                <td class="nav" width="20%" style="position: relative;">
+                    <h3> </h3>
+                    <a href="index.html" class="nav-link">Home</a><br>
+                    <a href="resume.html" class="nav-link">Resume</a><br>
+                    <a href="about.html" class="nav-link">About</a><br>
+		    <a href="blog.html" class="nav-link">Weblog</a><br>
+                    <img src="assets/cats/linea_anluorbarkat.gif" alt="cats" title="cats" style="position: absolute; bottom: 0; left: 0; max-width: 100%; height: auto;" width="1000">
+                </td>
+
+                <!-- Main Content -->
+                <td width="80%">
+			<a href="#" id="expand-all">Expand all</a> | <a href="#" id="close-all">Close all</a>
+                    	<!-- Blog List -->
+			    <div class="project-item" style="padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin: 20px;">
+				<div>
+				<h2 style="margin: 0; font-size: 1.5em; ">NGN @ IISER TVM</h2>
+				<h4 style="margin: 0; color: #8f8f8f;">Blogged on : 19th Dec 2024</h4>
+				</div>
+				<p style="margin-top: 10px; line-height: 1.6;">
+				    First blog! A bunch of us from lab went to the NGN (No Garland Neuroscience) conference, at IISER Trivandrum - from 3rd Dec to 8th Dec, 2024.
+				</p>
+				<!-- Images -->
+				<div class="image-container" style="display: flex; flex-wrap: wrap; gap: 0px; justify-content: center; margin-top: 15px;">
+					<figure>
+					    <img src="assets/blog/ngn_iisertvm.png" 
+						 alt="IISER TVM campus" title="IISER TVM campus">
+					    <figcaption>
+						IISER TVM's campus is so pretty.
+					    </figcaption>
+					</figure>
+					<figure>
+						<img src="assets/blog/ngn_beach.png" 
+						     alt="shanghamugham beach" title="shanghamugham beach">
+						<figcaption>
+						    First day at TVM was spent right next to Shanghamugham beach.
+						</figcaption>
+					</figure>
+				</div>
+				<p>
+				Went with Jhilik, Surbhi, Sanika, Prithu, Deb. Jhilik and Deb had talks at the conference, while Surbhi, Sanika and I presented posters.
+				We had soo much fun. My <strike>labmates</strike> friends are so cool.
+				</p>
+				<!-- <a href="#" class="more-link">More?</a>
+				<div class="more-content">
+				</div> -->
+			</div><hr>
+			
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin-top: 5px;">
+            <img src="assets/cat_banner.jpg" alt="Cat Banner: No time spent with a cat is wasted" width="100"><br>
+        </div>
+        <div id="themeToggle" class="light"></div>
+    </div>
+
+<!-- Scripts -->
+<script>
+	window.onload = function() {
+	// Get the current page's URL
+	const currentPage = window.location.pathname.split("/").pop();
+	// Get all navigation links
+	const navLinks = document.querySelectorAll(".nav-link");
+	
+	// Loop through links and check if the href matches the current page
+	navLinks.forEach(link => {
+	const linkHref = link.getAttribute("href");
+	
+	if (linkHref === currentPage || (currentPage === "" && linkHref === "index.html")) {
+		link.classList.add("active"); // Add 'active' class to the matching link
+	}
+	});
+	};
+</script>
+
+    <!-- Script to toggle 'More?' section in each project
+     		and the 'Expand all' and 'Close all' buttons -->
+    <script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    const moreLinks = document.querySelectorAll(".more-link");
+	    const expandAllBtn = document.getElementById("expand-all");
+	    const closeAllBtn = document.getElementById("close-all");
+	    const projectItems = document.querySelectorAll(".project-item");
+	
+	    // Toggle individual sections
+	    moreLinks.forEach(link => {
+		link.addEventListener("click", function(event) {
+		    event.preventDefault();
+		    const parentItem = link.closest(".project-item");
+		    parentItem.classList.toggle("expanded");
+
+		    // Update link text
+		    link.textContent = parentItem.classList.contains("expanded") ? "Less?" : "More?";
+		});
+	    });
+	
+	    // Expand all sections
+	    expandAllBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		projectItems.forEach(item => {
+		    item.classList.add("expanded");
+
+		    // Update link text
+		    const link = item.querySelector(".more-link");
+			if (link) link.textContent = "Less?";
+		});
+	    });
+	
+	    // Close all sections
+	    closeAllBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		projectItems.forEach(item => {
+		    item.classList.remove("expanded");
+
+		    // Update link text
+		    const link = item.querySelector(".more-link");
+            		if (link) link.textContent = "More?";
+		});
+	    });
+	});
+    </script>	
+
+
+    <!-- Theme toggle script (same as index page) -->
+    <script>
+        // Get references to HTML and the toggle button
+        const htmlElement = document.documentElement;
+        const bodyElement = document.body;
+        const toggleButton = document.getElementById('themeToggle');
+    
+        // Function to apply the theme
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                htmlElement.classList.add('light-mode');
+                bodyElement.classList.add('light-mode');
+                toggleButton.classList.remove('light');
+                toggleButton.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('light-mode');
+                bodyElement.classList.remove('light-mode');
+                toggleButton.classList.remove('dark');
+                toggleButton.classList.add('light');
+            }
+        }
+    
+        // Read the saved theme from localStorage on page load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        }
+    
+        // Event listener for toggle button
+        toggleButton.addEventListener('click', () => {
+            const currentTheme = htmlElement.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            // Apply the new theme and save it to localStorage
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    </script>
+</body>
+</html>
