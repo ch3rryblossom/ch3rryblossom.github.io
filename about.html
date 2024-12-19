@@ -151,6 +151,73 @@
             vertical-align: -5px;
         }
 
+        .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 200px;
+  text-align: center;
+  border: 4px double #FF90A5;
+  padding: 10px;
+  background-color: #191b22;
+  color: #ffffff;
+  font-family: 'Comic Sans MS';
+  position: relative;
+  overflow: hidden;
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #ffffff;
+  /* margin-bottom: 10px; */
+  transition: opacity 0.3s ease;
+}
+
+.card .hover-text {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  border: 2px solid #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(197, 115, 115, 0.8);
+  color: #ffffff;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.card a {
+  color: #FF90A5;
+  text-decoration: underline;
+}
+
+
+
         /* Smaller Screens */
         @media (max-width: 768px) 
         {
@@ -200,37 +267,51 @@
             <hr>
 			<p>My favourite stuff:<br></p>
 
-			<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 20px;">
-				<!-- TV Show Card -->
-				<div style="width: 200px; text-align: center; border: 4px double #FF90A5; padding: 10px; background-color: #191b22; color: #ffffff; font-family: 'Comic Sans MS';">
-				    <p style="font-size: 16px; margin-bottom: 20px; margin-top: 5px;">My Favourite TV Show</p>
-				    <img src="assets/about/fleabag.jpg" alt="Favorite TV Show" style="width: 100%; height: auto; border: 2px solid #ffffff; margin-bottom: 10px;">
-				    <a href="https://www.imdb.com/title/tt5687612/" target="_blank" style="color: #FF90A5;">Fleabag</a> <br>by Phoebe Waller-Bridge
-				</div>
-			    
-				<!-- Movie Card -->
-				<div style="width: 200px; text-align: center; border: 4px double #FF90A5; padding: 10px; background-color: #191b22; color: #ffffff; font-family: 'Comic Sans MS';">
-				    <p style="font-size: 16px; margin-bottom: 20px; margin-top: 5px;">My Favourite Movie</p>
-				    <img src="assets/about/18x2byd.jpg" alt="Favorite Movie" style="width: 100%; height: auto; border: 2px solid #ffffff; margin-bottom: 10px;">
-				    <a href="https://www.imdb.com/title/tt31039829/" target="_blank" style="color: #FF90A5;">18x2 Beyond Youthful Days</a> <br> Japanese-Taiwanese movie I recently found
-				</div>
+			<div class="card-container">
+                <!-- TV Show Card -->
+                <div class="card">
+                  <p class="card-title">My Favourite TV Show</p>
+                  <div class="image-wrapper">
+                    <img src="assets/about/fleabag.jpg" alt="Favorite TV Show">
+                    <div class="hover-text">Simply love every single thing about this.</div>
+                  </div>
+                  <a href="https://www.imdb.com/title/tt5687612/" target="_blank">Fleabag</a> <br>by Phoebe Waller-Bridge
+                </div>
+              
+                <!-- Movie Card -->
+                <div class="card">
+                  <p class="card-title">My Favourite Movie</p>
+                  <div class="image-wrapper">
+                    <img src="assets/about/18x2byd.jpg" alt="Favorite Movie">
+                    <div class="hover-text">Found this from a YT MV made for About You - The 1975</div>
+                  </div>
+                  <a href="https://www.imdb.com/title/tt31039829/" target="_blank">18x2 Beyond Youthful Days</a> <br> Japanese-Taiwanese movie I recently found
+                </div>
+              </div>
+              
+              <div class="card-container">
+                <!-- Music Album Card -->
+                <div class="card">
+                  <p class="card-title">My Favourite Album</p>
+                  <div class="image-wrapper">
+                    <img src="assets/about/parachutes.png" alt="Favorite Album">
+                    <div class="hover-text">An all-time favorite album, my fave song on this is Sparks</div>
+                  </div>
+                  <a href="https://open.spotify.com/album/6ZG5lRT77aJ3btmArcykra" target="_blank">Parachutes</a> <br>by Coldplay
+                </div>
+              
+                <!-- Song Card -->
+                <div class="card">
+                  <p class="card-title">My Favourite Song</p>
+                  <div class="image-wrapper">
+                    <img src="assets/about/aboutyou1975.jpg" alt="Favorite Song">
+                    <div class="hover-text">Favourite as of 19th Dec '24. Also 'BIRDS OF A FEATHER' by Billie Eilish!</div>
+                  </div>
+                  <a href="https://open.spotify.com/track/1fDFHXcykq4iw8Gg7s5hG9" target="_blank">About You</a> <br> by The 1975
+                </div>
             </div>
-			    
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 20px;">
-				<!-- Music Album Card -->
-				<div style="width: 200px; text-align: center; border: 4px double #FF90A5; padding: 10px; background-color: #191b22; color: #ffffff; font-family: 'Comic Sans MS';">
-				    <p style="font-size: 16px; margin-bottom: 20px; margin-top: 5px;">My Favourite Album</p>
-				    <img src="assets/about/parachutes.png" alt="Favorite Album" style="width: 100%; height: auto; border: 2px solid #ffffff; margin-bottom: 10px;">
-				    <a href="https://open.spotify.com/album/6ZG5lRT77aJ3btmArcykra" target="_blank" style="color: #FF90A5;">Parachutes by Coldplay</a> <br> all-time favourite
-				</div>
-			    
-				<!-- Song Card -->
-				<div style="width: 200px; text-align: center; border: 4px double #FF90A5; padding: 10px; background-color: #191b22; color: #ffffff; font-family: 'Comic Sans MS';">
-				    <p style="font-size: 16px; margin-bottom: 20px; margin-top: 5px;">My Favourite Song</p>
-				    <img src="assets/about/aboutyou1975.jpg" alt="Favorite Song" style="width: 100%; height: auto; border: 2px solid #ffffff; margin-bottom: 10px;">
-				    <a href="https://open.spotify.com/track/1fDFHXcykq4iw8Gg7s5hG9" target="_blank" style="color: #FF90A5;">About You by The 1975</a> <br> (current - 15th Dec '24)
-				</div>
-            </div>
+              
+              
             <hr>
             <p> Other websites on the internet that I like 
                 <ul>
@@ -279,6 +360,34 @@
     <div id="themeToggle" class="light"></div>
     
 <!-- Scripts -->
+
+<script>
+    // Get all the cards
+    const cards = document.querySelectorAll('.card');
+  
+    cards.forEach(card => {
+      // Select the image and hover-text div inside the image-wrapper
+      const imageWrapper = card.querySelector('.image-wrapper');
+      const img = imageWrapper.querySelector('img');
+      const hoverText = imageWrapper.querySelector('.hover-text');
+  
+      // When mouse enters the card
+      card.addEventListener('mouseenter', () => {
+        // Hide the image and show the hover text
+        img.style.opacity = '0';
+        hoverText.style.opacity = '1';
+      });
+  
+      // When mouse leaves the card
+      card.addEventListener('mouseleave', () => {
+        // Show the image and hide the hover text
+        img.style.opacity = '1';
+        hoverText.style.opacity = '0';
+      });
+    });
+  </script>
+  
+
 <script>
 	window.onload = function() {
 	// Get the current page's URL
