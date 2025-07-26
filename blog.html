@@ -220,9 +220,40 @@
             .main-container {
                 width: 95%;
             }
+            
+            /* Make table cells stack vertically on mobile */
+            table, tbody, tr {
+                display: block;
+                width: 100%;
+            }
+            
+            td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            
+            /* Navigation styling for mobile */
             .nav {
                 text-align: center;
+                /* margin-bottom: 10px; */
+                position: relative;
             }
+            
+            /* Adjust the cat image in navigation for mobile */
+            .nav img {
+                position: static !important;
+                /* margin-top: 10px; */
+                /* width: 150px !important; */
+                max-width: 100%;
+            }
+            
+            /* Adjust welcome text size for mobile */
+            #welcomeText {
+                font-size: 28px;
+            }
+            
+            /* Theme toggle positioning for mobile */
             #themeToggle {
                 position: fixed;
                 top: 15px;
