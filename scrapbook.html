@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason's Scrapbook</title>
+    <style>
+        /* Background from original site */
+        html {
+            --s: 50px;
+            --c: #191b22; /* main bg color */
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%,#20222a /* lines color */ 68% 70%,#0000 72%;
+            background: 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+              radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+              radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+              repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+              radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            transition: background 0.2s linear;
+        }
+        
+        html.light-mode {
+            --c: #f2f2f2; /* main bg color */
+            --_c: #0000 66%, #e3e3e3 /* lines color */ 68% 70%, #0000 72%;
+        }
+
+        @font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+
+        body {
+            font-family: "Comic Sans MS", sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body.light-mode {
+            color: #000000;
+        }
+
+        /* Theme toggle from original */
+        #themeToggle {
+            position: fixed;
+            top: 30px;
+            right: 35px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-size: cover;
+            z-index: 1000;
+        }
+        
+        #themeToggle.light {
+            background-image: url('assets/sun-icon.svg');
+        }
+        
+        #themeToggle.dark {
+            background-image: url('assets/moon-icon.svg');
+        }
+
+	marquee {
+            color: #FF90A5;
+            margin-bottom: 20px;
+        }
+        .scrapbook-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(270deg, #ff00ff, #009dff, #ff6600);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease infinite;
+            margin-bottom: 40px;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .scrapbook-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .scrapbook-photo {
+		position: absolute;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		border: 8px solid #fff;
+		border-radius: 3px;
+		box-shadow: 
+			0 4px 8px rgba(0,0,0,0.3),
+			inset 0 0 0 1px rgba(0,0,0,0.1),
+			/* Add multiple box-shadows for shaggy effect */
+			-2px -2px 0 2px #fff,
+			2px -2px 0 1px #fff,
+			-1px 2px 0 2px #fff,
+			3px 2px 0 1px #fff;
+		filter: sepia(10%) contrast(1.1);
+	}
+
+	/* Black borders in light mode */
+	body.light-mode .scrapbook-photo {
+	border-color: #000;
+	box-shadow: 
+		0 4px 8px rgba(0,0,0,0.3),
+		inset 0 0 0 1px rgba(0,0,0,0.1),
+		/* Black shaggy effect in light mode */
+		-2px -2px 0 2px #000,
+		2px -2px 0 1px #000,
+		-1px 2px 0 2px #000,
+		3px 2px 0 1px #000;
+	}
+
+        .scrapbook-photo:hover {
+            transform: scale(1.1) !important;
+            z-index: 100;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 0 0 1px rgba(0,0,0,0.1);
+        }
+
+        .photo-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 200px;
+            z-index: 101;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border: 2px solid #FF90A5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .photo-tooltip.light-mode {
+            background: rgba(255, 255, 255, 0.95);
+            color: black;
+            border-color: #FF90A5;
+        }
+
+        .photo-tooltip.show {
+            opacity: 1;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 35px;
+            color: #FF90A5;
+            text-decoration: none;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .scrapbook-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .scrapbook-photo {
+                max-width: 120px !important;
+            }
+            
+            .photo-tooltip {
+                max-width: 150px;
+                font-size: 12px;
+            }
+            
+            #themeToggle {
+                top: 15px;
+                right: 20px;
+                width: 15px;
+                height: 15px;
+            }
+            
+            .back-link {
+                top: 15px;
+                left: 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <div id="themeToggle" class="light"></div>
+    
+    <h1 class="scrapbook-title">Jason's Digital Scrapbook</h1>
+    <marquee>You can drag them around hehe  &#x14da;&#x160f;&#x15e2; </marquee>
+    <div class="scrapbook-container" id="scrapbookContainer">
+        <!-- Photos will be dynamically added here -->
+    </div>
+
+    <div class="photo-tooltip" id="tooltip"></div>
+
+    <script>
+		
+	const photos = [
+	{
+		src: "assets/scrapbook/cat_hospital.gif",
+		description: "cat",
+		width: 180
+	},
+	{
+		src: "assets/scrapbook/cherry.gif", 
+		description: "ch3rryblossom",
+		width: 180
+	},
+	{
+		src: "assets/scrapbook/gany.jpg",
+		description: "Ganymede",
+		width: 160
+	},
+	{
+		src: "assets/scrapbook/hanginthere.jpg",
+		description: "",
+		width: 200
+	},
+	{
+		src: "assets/scrapbook/hehecat.jpg",
+		description: "",
+		width: 180
+	},
+	{
+		src: "assets/scrapbook/iiser_albumcover.jpg",
+		description: "IISER",
+		width: 190
+	},
+	{
+		src: "assets/scrapbook/men-i-trust.jpg",
+		description: "favourite",
+		width: 180
+	},
+	{
+		src: "assets/scrapbook/overthewire.jfif",
+		description: "OverTheWire",
+		width: 175
+	},
+	{
+		src: "assets/scrapbook/YouthHostelDalhousie.jpg",
+		description: "Youth Hostel in Dalhousie - School Trip in Class 8th",
+		width: 155
+	}
+	];
+        
+        const htmlElement = document.documentElement;
+        const bodyElement = document.body;
+        const toggleButton = document.getElementById('themeToggle');
+        const tooltip = document.getElementById('tooltip');
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                htmlElement.classList.add('light-mode');
+                bodyElement.classList.add('light-mode');
+                tooltip.classList.add('light-mode');
+                toggleButton.classList.remove('light');
+                toggleButton.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('light-mode');
+                bodyElement.classList.remove('light-mode');
+                tooltip.classList.remove('light-mode');
+                toggleButton.classList.remove('dark');
+                toggleButton.classList.add('light');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        }
+
+        toggleButton.addEventListener('click', () => {
+            const currentTheme = htmlElement.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Scrapbook functionality
+        function getRandomPosition() {
+            const container = document.getElementById('scrapbookContainer');
+            const containerRect = container.getBoundingClientRect();
+            
+            
+            const margin = 100;
+            const x = Math.random() * (containerRect.width - margin * 2) + margin;
+            const y = Math.random() * (containerRect.height - margin * 2) + margin;
+            
+            return { x, y };
+        }
+
+        function getRandomRotation() {
+            return (Math.random() - 0.5) * 30; // Random rotation between -15 and 15 degrees
+        }
+
+        function createPhoto(photoData, index) {
+		const photo = document.createElement('img');
+		photo.src = photoData.src;
+		photo.classList.add('scrapbook-photo');
+		photo.style.width = photoData.width + 'px';
+		photo.style.height = 'auto';
+		photo.style.cursor = 'pointer';
+		
+		const position = getRandomPosition();
+		const rotation = getRandomRotation();
+		
+		photo.style.left = position.x + 'px';
+		photo.style.top = position.y + 'px';
+		photo.style.transform = `rotate(${rotation}deg)`;
+		
+		// Store original transform for hover effects
+		photo.dataset.originalTransform = `rotate(${rotation}deg)`;
+		photo.dataset.description = photoData.description;
+		
+		// Add hover events
+		photo.addEventListener('mouseenter', showTooltip);
+		photo.addEventListener('mouseleave', hideTooltip);
+		photo.addEventListener('mousemove', updateTooltipPosition);
+		
+		// Make photo draggable
+		makeDraggable(photo);
+		
+		return photo;
+	}
+
+        function showTooltip(e) {
+		const photo = e.target;
+		const description = photo.dataset.description;
+		
+		// Only show tooltip if description exists and is not empty
+		if (description && description.trim() !== '') {
+			tooltip.textContent = description;
+			tooltip.classList.add('show');
+			updateTooltipPosition(e);
+		}
+		
+		// Update photo transform to include hover effect regardless of tooltip
+		const originalTransform = photo.dataset.originalTransform;
+		photo.style.transform = originalTransform + ' scale(1.1)';
+	}
+
+        function hideTooltip(e) {
+		const photo = e.target;
+		tooltip.classList.remove('show');
+		
+		// Reset photo transform
+		photo.style.transform = photo.dataset.originalTransform;
+	}
+
+        function updateTooltipPosition(e) {
+		const photo = e.target;
+		const photoRect = photo.getBoundingClientRect();
+		
+		// Add scroll position to get absolute coordinates
+		const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+		const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+		
+		// Position tooltip closer to the photo with scroll offset
+		let tooltipX = photoRect.right + scrollX + 8;
+		let tooltipY = photoRect.top + scrollY;
+		
+		// Check if tooltip would go off screen and adjust
+		const tooltipRect = tooltip.getBoundingClientRect();
+		if (tooltipX + tooltipRect.width > window.innerWidth + scrollX) {
+			tooltipX = photoRect.left + scrollX - tooltipRect.width - 8;
+		}
+		
+		if (tooltipY + tooltipRect.height > window.innerHeight + scrollY) {
+			tooltipY = window.innerHeight + scrollY - tooltipRect.height - 15;
+		}
+		
+		tooltip.style.left = tooltipX + 'px';
+		tooltip.style.top = tooltipY + 'px';
+	}
+
+	// Add drag and drop functionality for both desktop and mobile
+	function makeDraggable(photo) {
+	let isDragging = false;
+	let startX, startY, initialLeft, initialTop;
+	
+	// Desktop events
+	photo.addEventListener('mousedown', startDrag);
+	
+	// Mobile events
+	photo.addEventListener('touchstart', startDragTouch, { passive: false });
+	
+	function startDrag(e) {
+		isDragging = true;
+		photo.style.cursor = 'grabbing';
+		photo.style.zIndex = '200';
+		
+		startX = e.clientX;
+		startY = e.clientY;
+		
+		initialLeft = parseInt(photo.style.left) || 0;
+		initialTop = parseInt(photo.style.top) || 0;
+		
+		document.addEventListener('mousemove', drag);
+		document.addEventListener('mouseup', stopDrag);
+		
+		e.preventDefault();
+	}
+	
+	function startDragTouch(e) {
+		isDragging = true;
+		photo.style.zIndex = '200';
+		
+		const touch = e.touches[0];
+		startX = touch.clientX;
+		startY = touch.clientY;
+		
+		initialLeft = parseInt(photo.style.left) || 0;
+		initialTop = parseInt(photo.style.top) || 0;
+		
+		document.addEventListener('touchmove', dragTouch, { passive: false });
+		document.addEventListener('touchend', stopDragTouch);
+		
+		e.preventDefault();
+	}
+	
+	function drag(e) {
+		if (!isDragging) return;
+		
+		const deltaX = e.clientX - startX;
+		const deltaY = e.clientY - startY;
+		
+		const newLeft = initialLeft + deltaX;
+		const newTop = initialTop + deltaY;
+		
+		photo.style.left = newLeft + 'px';
+		photo.style.top = newTop + 'px';
+		
+		tooltip.classList.remove('show');
+	}
+	
+	function dragTouch(e) {
+		if (!isDragging) return;
+		
+		const touch = e.touches[0];
+		const deltaX = touch.clientX - startX;
+		const deltaY = touch.clientY - startY;
+		
+		const newLeft = initialLeft + deltaX;
+		const newTop = initialTop + deltaY;
+		
+		photo.style.left = newLeft + 'px';
+		photo.style.top = newTop + 'px';
+		
+		tooltip.classList.remove('show');
+		
+		e.preventDefault();
+	}
+	
+	function stopDrag() {
+		isDragging = false;
+		photo.style.cursor = 'pointer';
+		photo.style.zIndex = '1';
+		
+		document.removeEventListener('mousemove', drag);
+		document.removeEventListener('mouseup', stopDrag);
+	}
+	
+	function stopDragTouch() {
+		isDragging = false;
+		photo.style.zIndex = '1';
+		
+		document.removeEventListener('touchmove', dragTouch);
+		document.removeEventListener('touchend', stopDragTouch);
+	}
+	}
+
+        // Initialize scrapbook
+        function initScrapbook() {
+            const container = document.getElementById('scrapbookContainer');
+            
+            photos.forEach((photoData, index) => {
+                const photo = createPhoto(photoData, index);
+                container.appendChild(photo);
+            });
+        }
+
+        // Wait for page to load before initializing
+        window.addEventListener('load', initScrapbook);
+
+        // Handle window resize to reposition tooltips
+        window.addEventListener('resize', () => {
+            tooltip.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
