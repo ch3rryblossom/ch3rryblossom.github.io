@@ -391,19 +391,76 @@
         * Modified Dec 31st, 02' by DD. This notice must stay intact for use
     ******************************************/
 
+    // Common display width for all nyancat images
+    const NYANCAT_DISPLAY_WIDTH = 50;
+
+    // Function to calculate display height based on aspect ratio
+    function calculateDisplayHeight(originalWidth, originalHeight, displayWidth) {
+        const aspectRatio = originalHeight / originalWidth;
+        return Math.round(displayWidth * aspectRatio);
+    }
+
     const images = [
-        { src: "assets/abstar1.gif", width: 40, height: 40 },
-        { src: "assets/abstar2.gif", width: 40, height: 40 },
-        { src: "assets/abstar3.gif", width: 40, height: 40 },
-        { src: "assets/abstar4.gif", width: 40, height: 40 },
-        { src: "assets/abstar5.gif", width: 40, height: 40 },
-        { src: "assets/th_nyan-cat-anim.gif", width: 40, height: 28 }
+        { src: "assets/nyancat/abstar1.gif", width: 40, height: 40 },
+        { src: "assets/nyancat/abstar2.gif", width: 40, height: 40 },
+        { src: "assets/nyancat/abstar3.gif", width: 40, height: 40 },
+        { src: "assets/nyancat/abstar4.gif", width: 40, height: 40 },
+        { src: "assets/nyancat/abstar5.gif", width: 40, height: 40 },
+        { src: "assets/nyancat/OriginalNyan.webp", width: NYANCAT_DISPLAY_WIDTH, height: calculateDisplayHeight(400, 240, NYANCAT_DISPLAY_WIDTH) } // This will be the changing one
+    ]; 
+
+    // All the nyancat variants to cycle through
+    const nyancatVariants = [
+        { src: "assets/nyancat/16bit.webp", width: 528, height: 336 },
+        { src: "assets/nyancat/AngelNyan.webp", width: 544, height: 384 },
+        { src: "assets/nyancat/BDAYNyan.webp", width: 544, height: 592 },
+        { src: "assets/nyancat/CherryBlossomNyan.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/CowboyNyan.webp", width: 672, height: 416 },
+        { src: "assets/nyancat/DemonicNyan.webp", width: 672, height: 448 },
+        { src: "assets/nyancat/DISORDER_NYAN.webp", width: 272, height: 128 },
+        { src: "assets/nyancat/Fudgecat.webp", width: 476, height: 294 },
+        { src: "assets/nyancat/HazyNyan.webp", width: 656, height: 608 },
+        { src: "assets/nyancat/Magical.webp", width: 848, height: 544 },
+        { src: "assets/nyancat/NewYearNyanNew.webp", width: 273, height: 200 },
+        { src: "assets/nyancat/Nyan-Ster_Bunny.webp", width: 320, height: 208 },
+        { src: "assets/nyancat/NyanBoy.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/Nyancat_0.webp", width: 432, height: 324 },
+        { src: "assets/nyancat/OriginalNyan.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/SmoothJazz.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/SurfingNyan.webp", width: 544, height: 448 },
+        { src: "assets/nyancat/Tac-9.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/TechnyancolorNyan.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/Vapor.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/Vday.webp", width: 272, height: 168 },
+        { src: "assets/nyancat/Vintage.webp", width: 544, height: 336 },
+        { src: "assets/nyancat/Xmas.webp", width: 272, height: 208 }
     ];
 
     const nos = images.length;
     const rate = 50; // Update frequency in ms
     const offsetX = 15; // X offset of trail from mouse pointer
     const offsetY = 15; // Y offset of trail from mouse pointer
+
+    // Function to randomly change the nyancat image
+    function changeNyancatImage() {
+        if (!nyancatMode || trailElements.length === 0) return;
+        
+        const nyancatElement = trailElements[trailElements.length - 1]; // Last element is the nyancat
+        const randomNyancatData = nyancatVariants[Math.floor(Math.random() * nyancatVariants.length)];
+        
+        // Calculate the correct display height based on aspect ratio
+        const displayHeight = calculateDisplayHeight(
+            randomNyancatData.width, 
+            randomNyancatData.height, 
+            NYANCAT_DISPLAY_WIDTH
+        );
+        
+        // Update the element's dimensions
+        nyancatElement.style.width = `${NYANCAT_DISPLAY_WIDTH}px`;
+        nyancatElement.style.height = `${displayHeight}px`;
+        
+        nyancatElement.innerHTML = `<img src="${randomNyancatData.src}" width="${NYANCAT_DISPLAY_WIDTH}" height="${displayHeight}" alt="">`;
+    }
 
     let trailElements = [];
     let mouseX = 0, mouseY = 0;
@@ -443,6 +500,7 @@
         mouseY = e.pageY;
     });
 
+    let nyancatChangeInterval;
     // Toggle nyancat mode
     function toggleNyancatMode() {
         nyancatMode = !nyancatMode;
@@ -452,11 +510,13 @@
                 createTrail();
             }
             intervalId = setInterval(updateTrail, rate);
+            nyancatChangeInterval = setInterval(changeNyancatImage, 1000); // Change every 1 second
             document.getElementById('nyancatToggle').classList.remove('off');
             document.getElementById('nyancatToggle').classList.add('on');
         } else {
             // If turning off nyancat mode, clear interval and hide trail
             clearInterval(intervalId);
+            clearInterval(nyancatChangeInterval);
             trailElements.forEach(div => {
                 div.style.left = '-9999px'; // Move trail elements off-screen
                 div.style.top = '-9999px';
