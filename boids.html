@@ -163,6 +163,25 @@
     	cursor: not-allowed;
     	}
 
+	@font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+
+	.back-link {
+	    font-family: "Comic Sans MS", sans-serif;
+            position: fixed;
+            top: 30px;
+            left: 35px;
+            color: #FF90A5;
+            text-decoration: none;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
 
         h1 {
             color: #4CAF50;
@@ -170,7 +189,7 @@
     </style>
 </head>
 <body>
-
+	<a href="index.html" class="back-link">← Back to Home</a>
     <div id="controlPanel">
         <div class="control-section collapsed" id="visualSystemSection">
     	<div class="section-header" onclick="toggleSection(this)">
