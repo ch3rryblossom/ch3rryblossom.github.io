@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boids Playground</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        #boidToggle {
+            position: relative;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #boidToggle:hover {
+            background-color: #45a049;
+        }
+
+        #boidToggle.off {
+            background-color: #f44336;
+        }
+
+        #boidToggle.off:hover {
+            background-color: #da190b;
+        }
+
+        #controlPanel {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+            min-width: 200px;
+        }
+
+        #controlPanel.show {
+            display: block;
+        }
+
+        .control-section {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .control-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+	        padding-bottom: 0;
+        }
+
+        .control-section h4 {
+            margin: 0 0 10px 0;
+            color: #4CAF50;
+        }
+
+        .sub-control {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .slider-control {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .slider-control label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .slider-control input[type="range"] {
+            width: 150px;
+            margin-right: 8px;
+        }
+
+        .slider-value {
+            font-size: 11px;
+            color: #ccc;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 500;
+        }
+
+        #content {
+            position: relative;
+            z-index: 100;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px 20px;
+        }
+
+    	.section-header {
+    	display: flex;
+    	justify-content: space-between;
+    	align-items: center;
+    	cursor: pointer;
+    	padding: 5px 0;
+    	}
+
+    	.section-header h4 {
+    	margin: 0;
+    	color: #4CAF50;
+    	}
+
+    	.section-header .arrow {
+    	transition: transform 0.2s ease;
+    	font-size: 12px;
+    	color: #ccc;
+    	}
+
+    	.control-section.collapsed .arrow {
+    	transform: rotate(0deg);
+    	}
+
+    	.control-section:not(.collapsed) .arrow {
+    	transform: rotate(90deg);
+    	}
+
+    	.section-content {
+    	display: none;
+    	padding-top: 8px;
+    	}
+
+    	.control-section:not(.collapsed) .section-content {
+    	display: block;
+    	}
+
+    	input:disabled, input:disabled + span {
+    	opacity: 0.5;
+    	cursor: not-allowed;
+    	}
+
+
+        h1 {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controlPanel">
+        <div class="control-section collapsed" id="visualSystemSection">
+    	<div class="section-header" onclick="toggleSection(this)">
+    		<h4>Visual System</h4>
+    		<span class="arrow">&#9654;</span>
+    	</div>
+    	<div class="section-content">
+    			<label>
+    				<input type="checkbox" id="visualSystem" onchange="updateVisualSystem()"> Enable Vision
+    			</label>
+    		<div class="sub-control">
+    			<label>
+    				<input type="checkbox" id="showVisionCones" disabled onchange="updateShowVisionCones()"> Show Vision Cones
+    			</label>
+    		</div>
+    		<div class="slider-control">
+    			<label>Avoidance Strength:</label>
+    				<input type="range" id="avoidanceStrength" disabled min="0.1" max="5" step="0.1" value="2" onchange="updateAvoidanceStrength()">
+    				<span class="slider-value" id="avoidanceValue">2.0</span>
+    		</div>
+    	</div>
+    	</div>
+
+        <div class="control-section collapsed" id="auditorySystemSection">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h4>Auditory System</h4>
+            <span class="arrow">&#9654;</span>
+        </div>
+        <div class="section-content">
+            <label>
+                <input type="checkbox" id="auditorySystem" onchange="updateAuditorySystem()"> Enable Hearing
+            </label>
+            <div class="sub-control">
+                <label>
+                    <input type="checkbox" id="showAuditoryCircles" disabled onchange="updateShowAuditoryCircles()"> Show Auditory Circles
+                </label>
+            </div>
+        </div>
+        </div>
+        
+        <div class="control-section collapsed" id="behavioursSection">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h4>Behaviours</h4>
+            <span class="arrow">&#9654;</span>
+        </div>
+        <div class="section-content">
+            <label>
+                <input type="checkbox" id="avoidAll" onchange="updateAvoidAll()"> Avoid All
+            </label>
+        </div>
+        </div>
+
+        <div class="control-section collapsed">
+    	<div class="section-header" onclick="toggleSection(this)">
+    		<h4>Motor System</h4>
+    		<span class="arrow">&#9654;</span>
+    	</div>
+    	<div class="section-content">
+    		<div class="slider-control">
+    			<label>Mean Speed Delta:</label>
+    			<input type="range" id="meanSpeed" min="-1.0" max="2.0" step="0.1" value="0" onchange="updateMeanSpeed()">
+    			<span class="slider-value" id="meanSpeedValue">1.50</span>
+    		</div>
+    		<div class="slider-control">
+    			<label>Mean Turn Rate Delta:</label>
+    			<input type="range" id="meanTurnRate" min="-0.02" max="0.1" step="0.005" value="0" onchange="updateMeanTurnRate()">
+    			<span class="slider-value" id="meanTurnRateValue">0.030</span>
+    		</div>
+    	</div>
+    	</div>
+	</div>
+    <div id="canvas-container"></div>
+
+    <div id="content">
+        <h1>Boids Playground</h1>
+        <p>Click the "Start Boids" button to see the boids appear on the screen.</p>
+	<button id="boidToggle" onclick="toggleBoids()">Start Boids</button>
+    </div>
+
+<script>
+let boids = [];
+let boidMode = false;
+let canvas;
+
+// Control panel states
+let visualSystemEnabled = false;
+let showVisionCones = false;
+
+let auditorySystemEnabled = false;
+let showAuditoryCircles = false;
+
+let avoidAllEnabled = false;
+let avoidanceStrength = 2.0;
+
+// Motor system variables
+let baseMeanSpeed = 1.5;
+let baseMeanTurnRate = 0.03;
+let speedDelta = 0;
+let turnRateDelta = 0;
+
+class Boid {
+	constructor(x, y) {
+		this.position = createVector(x, y);
+		this.angle = random(0, TWO_PI);
+
+		let baseSpeed = random(baseMeanSpeed - 0.5, baseMeanSpeed + 0.7);
+		let baseTurn = random(baseMeanTurnRate - 0.01, baseMeanTurnRate + 0.015);
+
+		this.motor = {
+			baseSpeed: baseSpeed,
+			speed: baseSpeed + speedDelta,
+			baseTurnRate: baseTurn,
+			turnRate: baseTurn + turnRateDelta
+		};
+
+		this.velocity = createVector(
+			cos(this.angle) * this.motor.speed,
+			sin(this.angle) * this.motor.speed
+		);
+
+		this.hierarchy = Math.floor(random(1, 6));
+
+		this.vision = {
+			angle: 120,
+			range: 80,
+		};
+
+		this.auditory = {
+			range: 60,
+			lastSoundTime: millis() + random(0, 1000),
+			interval: random(1000, 2000),
+			flash: false
+		};
+
+		this.memory = {};
+	}
+
+	update() {
+		// --- Behaviour Logic ---
+		if (avoidAllEnabled) {
+			let detectedBoids = [];
+			if (visualSystemEnabled) {
+				detectedBoids = detectedBoids.concat(this.getBoidsInVision());
+			}
+			if (auditorySystemEnabled) {
+				detectedBoids = detectedBoids.concat(this.getBoidsInAuditory());
+			}
+
+			if (detectedBoids.length > 0) {
+				this.avoidBoids(detectedBoids);
+			}
+		}
+
+		// --- Movement and Boundary Logic ---
+		this.position.add(this.velocity);
+		this.angle = atan2(this.velocity.y, this.velocity.x);
+
+		if (this.position.x < 0) this.position.x = windowWidth;
+		if (this.position.x > windowWidth) this.position.x = 0;
+		if (this.position.y < 0) this.position.y = windowHeight;
+		if (this.position.y > windowHeight) this.position.y = 0;
+
+		// --- Auditory Sound Generation ---
+		if (auditorySystemEnabled) {
+			if (millis() - this.auditory.lastSoundTime > this.auditory.interval) {
+				this.auditory.flash = true;
+				this.auditory.lastSoundTime = millis();
+				this.auditory.interval = random(1000, 2000);
+			}
+		} else {
+			this.auditory.flash = false;
+		}
+	}
+
+	getBoidsInVision() {
+		let boidsInVision = [];
+		for (let other of boids) {
+			if (other === this) continue;
+
+			let distance = p5.Vector.dist(this.position, other.position);
+			if (distance > this.vision.range) continue;
+
+			let angleToOther = atan2(other.position.y - this.position.y, other.position.x - this.position.x);
+			let angleDiff = angleToOther - this.angle;
+			while (angleDiff > PI) angleDiff -= TWO_PI;
+			while (angleDiff < -PI) angleDiff += TWO_PI;
+
+			let halfVisionAngle = radians(this.vision.angle / 2);
+			if (abs(angleDiff) <= halfVisionAngle) {
+				boidsInVision.push({
+					boid: other,
+					distance,
+					angle: angleToOther,
+					relativeBearing: angleDiff,
+					detectionRange: this.vision.range
+				});
+			}
+		}
+		return boidsInVision;
+	}
+
+	getBoidsInAuditory() {
+		let boidsInAuditory = [];
+		for (let other of boids) {
+			// A boid hears another boid only if the other boid is "flashing" (making a sound).
+			if (other === this || !other.auditory.flash) continue;
+
+			let distance = p5.Vector.dist(this.position, other.position);
+			if (distance <= this.auditory.range) {
+				let angleToOther = atan2(other.position.y - this.position.y, other.position.x - this.position.x);
+				let angleDiff = angleToOther - this.angle;
+				while (angleDiff > PI) angleDiff -= TWO_PI;
+				while (angleDiff < -PI) angleDiff += TWO_PI;
+
+				boidsInAuditory.push({
+					boid: other,
+					distance,
+					angle: angleToOther,
+					relativeBearing: angleDiff,
+					detectionRange: this.auditory.range
+				});
+			}
+		}
+		return boidsInAuditory;
+	}
+
+
+	avoidBoids(detectedBoids) {
+		let steerAngle = 0;
+
+		for (let detected of detectedBoids) {
+			// Use the specific range of the detection (vision or auditory)
+			let proximityStrength = map(detected.distance, 0, detected.detectionRange, 1, 0);
+			let turnDirection = detected.relativeBearing > 0 ? -1 : 1;
+			steerAngle += turnDirection * proximityStrength * this.motor.turnRate * avoidanceStrength;
+		}
+
+		this.angle += steerAngle;
+		this.velocity.set(cos(this.angle) * this.motor.speed, sin(this.angle) * this.motor.speed);
+	}
+
+	display() {
+		if (visualSystemEnabled && showVisionCones) {
+			push();
+			translate(this.position.x, this.position.y);
+			fill(100, 255, 100, 30);
+			noStroke();
+			let halfAngle = radians(this.vision.angle / 2);
+			arc(0, 0, this.vision.range * 2, this.vision.range * 2, this.angle - halfAngle, this.angle + halfAngle);
+			pop();
+		}
+
+		if (auditorySystemEnabled && showAuditoryCircles) {
+			push();
+			translate(this.position.x, this.position.y);
+			noFill();
+			strokeWeight(1);
+			// The flash indicates a sound was just made
+			if (this.auditory.flash) {
+				stroke(100, 150, 255, 255);
+			} else {
+				stroke(255, 255, 255, 40);
+			}
+			circle(0, 0, this.auditory.range * 2);
+			pop();
+
+			this.auditory.flash = false; // Reset flash after displaying
+		}
+
+		push();
+		translate(this.position.x, this.position.y);
+		rotate(this.angle);
+		fill(255, 255, 255, 150);
+		noStroke();
+		triangle(-8, -5, -8, 5, 8, 0);
+		pop();
+	}
+}
+
+function setup() {
+	canvas = createCanvas(windowWidth, windowHeight);
+	canvas.parent('canvas-container');
+	initializeBoids();
+}
+
+function draw() {
+	clear();
+	if (boidMode) {
+		for (let boid of boids) {
+			boid.update();
+			boid.display();
+		}
+	}
+}
+
+function initializeBoids() {
+	boids = [];
+	let numBoids = Math.floor(random(20, 41));
+	for (let i = 0; i < numBoids; i++) {
+		let x = random(50, windowWidth - 50);
+		let y = random(50, windowHeight - 50);
+		boids.push(new Boid(x, y));
+	}
+
+	baseMeanSpeed = boids.reduce((sum, b) => sum + b.motor.baseSpeed, 0) / boids.length;
+	baseMeanTurnRate = boids.reduce((sum, b) => sum + b.motor.baseTurnRate, 0) / boids.length;
+
+	document.getElementById('meanSpeedValue').textContent = (baseMeanSpeed + speedDelta).toFixed(2);
+	document.getElementById('meanTurnRateValue').textContent = (baseMeanTurnRate + turnRateDelta).toFixed(3);
+}
+
+function toggleBoids() {
+	boidMode = !boidMode;
+	let button = document.getElementById('boidToggle');
+	let panel = document.getElementById('controlPanel');
+
+	if (boidMode) {
+		button.textContent = 'Stop Boids';
+		button.classList.remove('off');
+		panel.classList.add('show');
+		initializeBoids();
+	} else {
+		button.textContent = 'Start Boids';
+		button.classList.add('off');
+		panel.classList.remove('show');
+	}
+}
+
+function updateVisualSystem() {
+	visualSystemEnabled = document.getElementById('visualSystem').checked;
+	const section = document.getElementById('visualSystemSection');
+	const inputs = section.querySelectorAll('input:not(#visualSystem), input:not(#visualSystem) + span');
+	inputs.forEach(input => input.disabled = !visualSystemEnabled);
+	
+	if (visualSystemEnabled) {
+		document.getElementById('showVisionCones').checked = true;
+		updateShowVisionCones();
+	}
+}
+
+function updateAuditorySystem() {
+	auditorySystemEnabled = document.getElementById('auditorySystem').checked;
+	const section = document.getElementById('auditorySystemSection');
+	const inputs = section.querySelectorAll('input:not(#auditorySystem)');
+	inputs.forEach(input => input.disabled = !auditorySystemEnabled);
+
+	if (auditorySystemEnabled) {
+		document.getElementById('showAuditoryCircles').checked = true;
+		updateShowAuditoryCircles();
+	} else {
+		// Immediately clear all flashes if system is turned off
+		for (let boid of boids) {
+			boid.auditory.flash = false;
+		}
+	}
+}
+
+function updateShowVisionCones() {
+	showVisionCones = document.getElementById('showVisionCones').checked;
+}
+
+function updateShowAuditoryCircles() {
+	showAuditoryCircles = document.getElementById('showAuditoryCircles').checked;
+}
+
+function updateAvoidAll() {
+	avoidAllEnabled = document.getElementById('avoidAll').checked;
+}
+
+function updateAvoidanceStrength() {
+	avoidanceStrength = parseFloat(document.getElementById('avoidanceStrength').value);
+	document.getElementById('avoidanceValue').textContent = avoidanceStrength.toFixed(1);
+}
+
+function updateMeanSpeed() {
+	speedDelta = parseFloat(document.getElementById('meanSpeed').value);
+	let newMean = baseMeanSpeed + speedDelta;
+	document.getElementById('meanSpeedValue').textContent = newMean.toFixed(2);
+	for (let boid of boids) {
+		boid.motor.speed = boid.motor.baseSpeed + speedDelta;
+		boid.velocity.set(cos(boid.angle) * boid.motor.speed, sin(boid.angle) * boid.motor.speed);
+	}
+}
+
+function updateMeanTurnRate() {
+	turnRateDelta = parseFloat(document.getElementById('meanTurnRate').value);
+	let newMean = baseMeanTurnRate + turnRateDelta;
+	document.getElementById('meanTurnRateValue').textContent = newMean.toFixed(3);
+	for (let boid of boids) {
+		boid.motor.turnRate = boid.motor.baseTurnRate + turnRateDelta;
+	}
+}
+
+function toggleSection(headerElement) {
+	const section = headerElement.parentElement;
+	section.classList.toggle('collapsed');
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	if (boidMode) initializeBoids();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Ensure controls are correctly disabled on load
+	updateVisualSystem();
+	updateAuditorySystem();
+});
+</script>
+
+
+</body>
+</html>
