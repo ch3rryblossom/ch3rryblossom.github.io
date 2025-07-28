@@ -6,12 +6,36 @@
     <title>Boids Playground</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <style>
+	@font-face {
+            font-family: 'Comic Sans MS';
+            src: url("assets/ComicSansMS3.ttf");
+        }
+
         body {
             margin: 0;
             padding: 20px;
             font-family: Arial, sans-serif;
             background-color: #1a1a1a;
             color: white;
+        }
+
+	.back-link {
+	    font-family: "Comic Sans MS", sans-serif;
+            position: fixed;
+            top: 30px;
+            left: 35px;
+            color: #FF90A5;
+            text-decoration: none;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+	
+        h1 {
+            color: #4CAF50;
         }
 
         #boidToggle {
@@ -162,30 +186,6 @@
     	opacity: 0.5;
     	cursor: not-allowed;
     	}
-
-	@font-face {
-            font-family: 'Comic Sans MS';
-            src: url("assets/ComicSansMS3.ttf");
-        }
-
-	.back-link {
-	    font-family: "Comic Sans MS", sans-serif;
-            position: fixed;
-            top: 30px;
-            left: 35px;
-            color: #FF90A5;
-            text-decoration: none;
-            font-size: 16px;
-            z-index: 1000;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            color: #4CAF50;
-        }
     </style>
 </head>
 <body>
