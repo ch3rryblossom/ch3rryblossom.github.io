@@ -197,6 +197,18 @@
 <body>
 	<a href="index.html" class="back-link">← Back to Home</a>
     <div id="controlPanel">
+        <div class="control-section collapsed" id="behavioursSection">
+        <div class="section-header" onclick="toggleSection(this)">
+            <h4>Behaviours</h4>
+            <span class="arrow">&#9654;</span>
+        </div>
+        <div class="section-content">
+            <label>
+                <input type="checkbox" id="avoidAll" onchange="updateAvoidAll()"> Avoid Everyone
+            </label>
+        </div>
+        </div>
+
         <div class="control-section collapsed" id="visualSystemSection">
     	<div class="section-header" onclick="toggleSection(this)">
     		<h4>Visual System</h4>
@@ -233,18 +245,16 @@
                     <input type="checkbox" id="showAuditoryCircles" disabled onchange="updateShowAuditoryCircles()"> Show Auditory Circles
                 </label>
             </div>
-        </div>
-        </div>
-        
-        <div class="control-section collapsed" id="behavioursSection">
-        <div class="section-header" onclick="toggleSection(this)">
-            <h4>Behaviours</h4>
-            <span class="arrow">&#9654;</span>
-        </div>
-        <div class="section-content">
-            <label>
-                <input type="checkbox" id="avoidAll" onchange="updateAvoidAll()"> Avoid All
-            </label>
+            <div class="slider-control">
+                <label>Sound Duration:</label>
+                <input type="range" id="soundDuration" disabled min="100" max="2000" step="100" value="500" onchange="updateSoundDuration()">
+                <span class="slider-value" id="soundDurationValue">500ms</span>
+            </div>
+            <div class="slider-control">
+                <label>Sound Frequency:</label>
+                <input type="range" id="soundFrequency" disabled min="500" max="5000" step="250" value="1500" onchange="updateSoundFrequency()">
+                <span class="slider-value" id="soundFrequencyValue">1500ms</span>
+            </div>
         </div>
         </div>
 
@@ -271,7 +281,7 @@
 
     <div id="content">
         <h1>Boids Playground</h1>
-        <p>Click the "Start Boids" button to see the boids appear on the screen.</p>
+        <p>Click start! Each boid is different! The motor system controls the mean speed and turn rate of the boids. </p>
 	<button id="boidToggle" onclick="toggleBoids()">Start Boids</button>
     </div>
 
@@ -286,6 +296,8 @@ let showVisionCones = false;
 
 let auditorySystemEnabled = false;
 let showAuditoryCircles = false;
+let soundDuration = 500; // Duration in milliseconds
+let soundFrequency = 1500; // Average interval between sounds in milliseconds
 
 let avoidAllEnabled = false;
 let avoidanceStrength = 2.0;
@@ -326,14 +338,18 @@ class Boid {
 		this.auditory = {
 			range: 60,
 			lastSoundTime: millis() + random(0, 1000),
-			interval: random(1000, 2000),
-			flash: false
+			interval: random(soundFrequency - 500, soundFrequency + 500),
+			soundStartTime: 0,
+			isCurrentlyMakingSound: false
 		};
 
 		this.memory = {};
+		this.isAvoiding = false; // Track if currently avoiding something
 	}
 
 	update() {
+		this.isAvoiding = false; // Reset avoiding state each frame
+		
 		// --- Behaviour Logic ---
 		if (avoidAllEnabled) {
 			let detectedBoids = [];
@@ -345,6 +361,7 @@ class Boid {
 			}
 
 			if (detectedBoids.length > 0) {
+				this.isAvoiding = true; // Mark as avoiding
 				this.avoidBoids(detectedBoids);
 			}
 		}
@@ -360,13 +377,24 @@ class Boid {
 
 		// --- Auditory Sound Generation ---
 		if (auditorySystemEnabled) {
-			if (millis() - this.auditory.lastSoundTime > this.auditory.interval) {
-				this.auditory.flash = true;
-				this.auditory.lastSoundTime = millis();
-				this.auditory.interval = random(1000, 2000);
+			let currentTime = millis();
+			
+			// Check if we should start a new sound
+			if (!this.auditory.isCurrentlyMakingSound && 
+				currentTime - this.auditory.lastSoundTime > this.auditory.interval) {
+				this.auditory.isCurrentlyMakingSound = true;
+				this.auditory.soundStartTime = currentTime;
+				this.auditory.lastSoundTime = currentTime;
+				this.auditory.interval = random(soundFrequency - 500, soundFrequency + 500);
+			}
+			
+			// Check if current sound should end
+			if (this.auditory.isCurrentlyMakingSound && 
+				currentTime - this.auditory.soundStartTime > soundDuration) {
+				this.auditory.isCurrentlyMakingSound = false;
 			}
 		} else {
-			this.auditory.flash = false;
+			this.auditory.isCurrentlyMakingSound = false;
 		}
 	}
 
@@ -400,8 +428,8 @@ class Boid {
 	getBoidsInAuditory() {
 		let boidsInAuditory = [];
 		for (let other of boids) {
-			// A boid hears another boid only if the other boid is "flashing" (making a sound).
-			if (other === this || !other.auditory.flash) continue;
+			// A boid hears another boid only if the other boid is currently making a sound
+			if (other === this || !other.auditory.isCurrentlyMakingSound) continue;
 
 			let distance = p5.Vector.dist(this.position, other.position);
 			if (distance <= this.auditory.range) {
@@ -421,7 +449,6 @@ class Boid {
 		}
 		return boidsInAuditory;
 	}
-
 
 	avoidBoids(detectedBoids) {
 		let steerAngle = 0;
@@ -453,22 +480,32 @@ class Boid {
 			translate(this.position.x, this.position.y);
 			noFill();
 			strokeWeight(1);
-			// The flash indicates a sound was just made
-			if (this.auditory.flash) {
+			// Blue circle when making sound, faint white when not
+			if (this.auditory.isCurrentlyMakingSound) {
 				stroke(100, 150, 255, 255);
 			} else {
 				stroke(255, 255, 255, 40);
 			}
 			circle(0, 0, this.auditory.range * 2);
 			pop();
-
-			this.auditory.flash = false; // Reset flash after displaying
 		}
 
 		push();
 		translate(this.position.x, this.position.y);
 		rotate(this.angle);
-		fill(255, 255, 255, 150);
+		
+		// Color the boid based on its state
+		if (this.auditory.isCurrentlyMakingSound && auditorySystemEnabled) {
+			// Blue when making sound
+			fill(100, 150, 255, 150);
+		} else if (this.isAvoiding) {
+			// Red when avoiding
+			fill(255, 100, 100, 150);
+		} else {
+			// Default white
+			fill(255, 255, 255, 150);
+		}
+		
 		noStroke();
 		triangle(-8, -5, -8, 5, 8, 0);
 		pop();
@@ -546,9 +583,9 @@ function updateAuditorySystem() {
 		document.getElementById('showAuditoryCircles').checked = true;
 		updateShowAuditoryCircles();
 	} else {
-		// Immediately clear all flashes if system is turned off
+		// Immediately stop all sounds if system is turned off
 		for (let boid of boids) {
-			boid.auditory.flash = false;
+			boid.auditory.isCurrentlyMakingSound = false;
 		}
 	}
 }
@@ -559,6 +596,23 @@ function updateShowVisionCones() {
 
 function updateShowAuditoryCircles() {
 	showAuditoryCircles = document.getElementById('showAuditoryCircles').checked;
+}
+
+function updateSoundDuration() {
+	soundDuration = parseInt(document.getElementById('soundDuration').value);
+	document.getElementById('soundDurationValue').textContent = soundDuration + 'ms';
+}
+
+function updateSoundFrequency() {
+	soundFrequency = parseInt(document.getElementById('soundFrequency').value);
+	document.getElementById('soundFrequencyValue').textContent = soundFrequency + 'ms';
+	
+	// Update existing boids' intervals to use new frequency range
+	for (let boid of boids) {
+		if (boid.auditory && !boid.auditory.isCurrentlyMakingSound) {
+			boid.auditory.interval = random(soundFrequency - 500, soundFrequency + 500);
+		}
+	}
 }
 
 function updateAvoidAll() {
@@ -605,7 +659,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	updateAuditorySystem();
 });
 </script>
-
 
 </body>
 </html>
