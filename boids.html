@@ -173,7 +173,7 @@
             z-index: 100;
             max-width: 800px;
             margin: 0 auto;
-            padding: 80px 20px 20px;
+            padding: 40px 20px 20px;
         }
 
     	.section-header {
@@ -232,7 +232,7 @@
                 <input type="checkbox" id="avoidAll" onchange="updateBehaviours('avoidAll')"> Avoid Everyone
             </label><br>
 	    <label>
-                <input type="checkbox" id="avoidOtherClan" onchange="updateBehaviours('avoidOtherClan')"> Avoid Other Clans (w.i.p.)
+                <input type="checkbox" id="avoidOtherClan" onchange="updateBehaviours('avoidOtherClan')"> Avoid Other Clans
             </label><br>
 	    <label>
                 <input type="checkbox" id="followSelfClan" onchange="updateBehaviours('followSelfClan')"> Follow Self Clan (w.i.p.)
@@ -323,7 +323,7 @@
 	</p>
 	<button id="boidToggle" onclick="toggleBoids()">Start Boids</button>
 	<br><br><br>
-	<h6>This page, unlike the rest of my website, did rely quite a bit on LLMs like Claude and ChatGPT for its code. If the source code for this website has heavy plagiarism of your code, please email me!</h6>
+	<!-- <h6>This page, unlike the rest of my website, did rely quite a bit on LLMs like Claude and ChatGPT for its code. If the source code for this website has heavy plagiarism of your code, please email me!</h6> -->
     </div>
 
 <script>
@@ -420,6 +420,26 @@ class Boid {
 			if (detectedBoids.length > 0) {
 				this.isAvoiding = true; // Mark as avoiding
 				this.avoidBoids(detectedBoids);
+			}
+		} else if (avoidOtherClanEnabled) {
+			let detectedBoids = [];
+			if (visualSystemEnabled) {
+				detectedBoids = detectedBoids.concat(this.getBoidsInVision());
+			}
+			if (auditorySystemEnabled) {
+				detectedBoids = detectedBoids.concat(this.getBoidsInAuditory());
+			}
+
+			let otherClanBoidsDetected = [];
+			for (let other of detectedBoids) {
+				if (other.boid.clan !== this.clan) {
+					otherClanBoidsDetected.push(other);
+				}
+			}
+
+			if (otherClanBoidsDetected.length > 0) {
+				this.isAvoiding = true; // Mark as avoiding
+				this.avoidBoids(otherClanBoidsDetected);
 			}
 		}
 
@@ -562,13 +582,13 @@ class Boid {
 		}
 	
 		// Determine stroke color based on current state
-		strokeWeight(2);
+		strokeWeight(0.5);
 		if (this.auditory.isCurrentlyMakingSound && auditorySystemEnabled) {
 			// Blue stroke when making sound
 			stroke(100, 150, 255);
 		} else if (this.isAvoiding) {
 			// Red stroke when avoiding
-			stroke(255, 100, 100);
+			stroke(255, 0, 0);
 		} else {
 			// No stroke for normal state
 			noStroke();
@@ -586,7 +606,7 @@ class Boid {
 		// 	fill(255, 255, 255, 150);
 		// }
 		
-		noStroke();
+		// noStroke();
 		triangle(-8, -5, -8, 5, 8, 0);
 		pop();
 	}
