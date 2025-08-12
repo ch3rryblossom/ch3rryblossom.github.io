@@ -437,10 +437,24 @@
         { src: "assets/nyancat/Xmas.webp", width: 272, height: 208 }
     ];
 
+    // Preloads all these gifs as soon as the page loads 
+    // not sure if this is an egregious insult to actual web devs but I'm too lazy
+    function preloadNyancatImages() {
+    nyancatVariants.forEach(cat => {
+        const img = new Image();
+        img.src = cat.src;
+    });
+    }
+    window.addEventListener('load', preloadNyancatImages);
+
+
     const nos = images.length;
     const rate = 50; // Update frequency in ms
     const offsetX = 15; // X offset of trail from mouse pointer
     const offsetY = 15; // Y offset of trail from mouse pointer
+
+
+
 
     // Function to randomly change the nyancat image
     function changeNyancatImage() {
@@ -532,6 +546,5 @@
 </script>
 
 
-    
 </body>
 </html>
