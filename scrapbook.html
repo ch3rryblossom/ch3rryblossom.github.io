@@ -281,6 +281,40 @@
 		width: 230
 	}
 	];
+
+    function shuffle(array) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+    return array;
+    }
+
+    function arrayrange(n) {
+        return Array.from({ length: n }, (_, i) => i+1);  //makes an array of elements by mapping index i (from 0 to n-1) to 1, 2, ... n 
+    }
+
+    function initZindex(photos) {
+        let order = arrayrange(photos.length);
+        order = shuffle(order);
+        // photos.forEach((photo, index) => {photo.zindex = order[index]})
+        return order;
+    }
+    function updateZindex(photos, order) {
+        photos.forEach((photoData, index) => {
+                const photo = createPhoto(photoData, index);
+                photo.zindex = order[index];
+        });
+    }
         
         const htmlElement = document.documentElement;
         const bodyElement = document.body;
@@ -333,87 +367,97 @@
         }
 
         function createPhoto(photoData, index) {
-		const photo = document.createElement('img');
-		photo.src = photoData.src;
-		photo.classList.add('scrapbook-photo');
-		photo.style.width = photoData.width + 'px';
-		photo.style.height = 'auto';
-		photo.style.cursor = 'pointer';
-		
-		const position = getRandomPosition();
-		const rotation = getRandomRotation();
-		
-		photo.style.left = position.x + 'px';
-		photo.style.top = position.y + 'px';
-		photo.style.transform = `rotate(${rotation}deg)`;
-		
-		// Store original transform for hover effects
-		photo.dataset.originalTransform = `rotate(${rotation}deg)`;
-		photo.dataset.description = photoData.description;
-		
-		// Add hover events
-		photo.addEventListener('mouseenter', showTooltip);
-		photo.addEventListener('mouseleave', hideTooltip);
-		photo.addEventListener('mousemove', updateTooltipPosition);
-		
-		// Make photo draggable
-		makeDraggable(photo);
-		
-		return photo;
-	}
+            const photo = document.createElement('img');
+            photo.src = photoData.src;
+            photo.classList.add('scrapbook-photo');
+            photo.style.width = photoData.width + 'px';
+            photo.style.height = 'auto';
+            photo.style.cursor = 'pointer';
+            
+            const position = getRandomPosition();
+            const rotation = getRandomRotation();
+            
+            photo.style.left = position.x + 'px';
+            photo.style.top = position.y + 'px';
+            photo.style.transform = `rotate(${rotation}deg)`;
+            
+            // Store original transform for hover effects
+            photo.dataset.originalTransform = `rotate(${rotation}deg)`;
+            photo.dataset.description = photoData.description;
+            
+            // Add hover events
+            photo.addEventListener('mouseenter', showTooltip);
+            photo.addEventListener('mouseleave', hideTooltip);
+            photo.addEventListener('mousemove', updateTooltipPosition);
+            
+            return photo;
+	    }
 
         function showTooltip(e) {
-		const photo = e.target;
-		const description = photo.dataset.description;
-		
-		// Only show tooltip if description exists and is not empty
-		if (description && description.trim() !== '') {
-			tooltip.textContent = description;
-			tooltip.classList.add('show');
-			updateTooltipPosition(e);
-		}
-		
-		// Update photo transform to include hover effect regardless of tooltip
-		const originalTransform = photo.dataset.originalTransform;
-		photo.style.transform = originalTransform + ' scale(1.1)';
-	}
+            const photo = e.target;
+            const description = photo.dataset.description;
+            
+            // Only show tooltip if description exists and is not empty
+            if (description && description.trim() !== '') {
+                tooltip.textContent = description;
+                tooltip.classList.add('show');
+                updateTooltipPosition(e);
+            }
+            
+            // Update photo transform to include hover effect regardless of tooltip
+            const originalTransform = photo.dataset.originalTransform;
+            photo.style.transform = originalTransform + ' scale(1.1)';
+	    }
 
         function hideTooltip(e) {
-		const photo = e.target;
-		tooltip.classList.remove('show');
-		
-		// Reset photo transform
-		photo.style.transform = photo.dataset.originalTransform;
-	}
+            const photo = e.target;
+            tooltip.classList.remove('show');
+            
+            // Reset photo transform
+            photo.style.transform = photo.dataset.originalTransform;
+	    }
 
         function updateTooltipPosition(e) {
-		const photo = e.target;
-		const photoRect = photo.getBoundingClientRect();
-		
-		// Add scroll position to get absolute coordinates
-		const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
-		const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-		
-		// Position tooltip closer to the photo with scroll offset
-		let tooltipX = photoRect.right + scrollX + 8;
-		let tooltipY = photoRect.top + scrollY;
-		
-		// Check if tooltip would go off screen and adjust
-		const tooltipRect = tooltip.getBoundingClientRect();
-		if (tooltipX + tooltipRect.width > window.innerWidth + scrollX) {
-			tooltipX = photoRect.left + scrollX - tooltipRect.width - 8;
-		}
-		
-		if (tooltipY + tooltipRect.height > window.innerHeight + scrollY) {
-			tooltipY = window.innerHeight + scrollY - tooltipRect.height - 15;
-		}
-		
-		tooltip.style.left = tooltipX + 'px';
-		tooltip.style.top = tooltipY + 'px';
-	}
+            const photo = e.target;
+            const photoRect = photo.getBoundingClientRect();
+            
+            // Add scroll position to get absolute coordinates
+            const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Position tooltip closer to the photo with scroll offset
+            let tooltipX = photoRect.right + scrollX + 8;
+            let tooltipY = photoRect.top + scrollY;
+            
+            // Check if tooltip would go off screen and adjust
+            const tooltipRect = tooltip.getBoundingClientRect();
+            if (tooltipX + tooltipRect.width > window.innerWidth + scrollX) {
+                tooltipX = photoRect.left + scrollX - tooltipRect.width - 8;
+            }
+            
+            if (tooltipY + tooltipRect.height > window.innerHeight + scrollY) {
+                tooltipY = window.innerHeight + scrollY - tooltipRect.height - 15;
+            }
+            
+            tooltip.style.left = tooltipX + 'px';
+            tooltip.style.top = tooltipY + 'px';
+	    }
+
+
+    function bringToFront(photo, photoElements) {
+    const maxZ = photoElements.length; // highest z-index should be N
+    photoElements.forEach(el => {
+        let current = parseInt(el.style.zIndex, 10);
+        if (el === photo) {
+            el.style.zIndex = maxZ; // clicked one goes to the top
+        } else {
+            el.style.zIndex = Math.max(1, current - 1); // everyone else down by 1
+        }
+    });
+    }
 
 	// Add drag and drop functionality for both desktop and mobile
-	function makeDraggable(photo) {
+	function makeDraggable(photo, photoElements) {
 	let isDragging = false;
 	let startX, startY, initialLeft, initialTop;
 	
@@ -426,7 +470,8 @@
 	function startDrag(e) {
 		isDragging = true;
 		photo.style.cursor = 'grabbing';
-		photo.style.zIndex = '200';
+		// photo.style.zIndex = '200';
+        bringToFront(photo, photoElements);
 		
 		startX = e.clientX;
 		startY = e.clientY;
@@ -442,7 +487,8 @@
 	
 	function startDragTouch(e) {
 		isDragging = true;
-		photo.style.zIndex = '200';
+		// photo.style.zIndex = '200';
+        bringToFront(photo, photoElements);
 		
 		const touch = e.touches[0];
 		startX = touch.clientX;
@@ -493,7 +539,6 @@
 	function stopDrag() {
 		isDragging = false;
 		photo.style.cursor = 'pointer';
-		photo.style.zIndex = '1';
 		
 		document.removeEventListener('mousemove', drag);
 		document.removeEventListener('mouseup', stopDrag);
@@ -501,7 +546,6 @@
 	
 	function stopDragTouch() {
 		isDragging = false;
-		photo.style.zIndex = '1';
 		
 		document.removeEventListener('touchmove', dragTouch);
 		document.removeEventListener('touchend', stopDragTouch);
@@ -512,10 +556,17 @@
         function initScrapbook() {
             const container = document.getElementById('scrapbookContainer');
             
+            const photoElements = [];
+            let order = initZindex(photos); // add a random Z index to each of the photos while initializing scrapbook
             photos.forEach((photoData, index) => {
                 const photo = createPhoto(photoData, index);
+                console.log(order);
+                photo.style.zIndex = order[index];
                 container.appendChild(photo);
+                photoElements.push(photo);
+                makeDraggable(photo, photoElements);
             });
+            updateZindex(photos, order);
         }
 
         // Wait for page to load before initializing
