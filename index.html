@@ -206,7 +206,38 @@
             background-size: cover;
             vertical-align: -5px;
         }
+        /* Initially hide the more-content div */
+        span#page-design-philosophy {
+        display: none;
+        opacity : 0;
+        transition : opacity 1s ease-in-out;
+        }
 
+        span#page-design-philosophy.expanded{
+        display: inline;
+        opacity : 1;
+        }
+
+        /* Border credits: FOOLLOVERS
+        Chocolate border: https://foollovers.com/mat/menu05/51a-none.gif
+        Biscuit border: https://foollovers.com/mat/baf/food/fo32-008-a.gif
+        Lily border: https://foollovers.com/mat/baf/flower/fl32-005-d.gif */
+
+        .chocolate-border{
+            border-width:7px;
+            border-style:solid;
+            border-image: url("assets/index/chocolate-border.gif") 9 fill round;
+        }
+        .biscuit-border{
+            border-width:7px;
+            border-style:solid;
+            border-image: url("assets/index/biscuit-border.gif") 7 fill round;
+        }
+        .lily-border{
+            border-width:7px;
+            border-style:solid;
+            border-image: url("assets/index/lily-border.gif") 7 fill round;
+        }
         /* Smaller Screens */
         @media (max-width: 768px) 
         {
@@ -275,7 +306,7 @@
                     <a href="resume.html" class="nav-link">Resume</a><br>
                     <a href="about.html" class="nav-link">About</a><br>
                     <a href="scrapbook.html" class="nav-link">Scrapbook <img src="assets/new.gif" width="30px" style="vertical-align: -5px;"></a><br>
-                    <a href="boids.html" class="nav-link">Boids Playground <img src="assets/new.gif" width="30px" style="vertical-align: -5px;"></a><br>
+                    <!-- <a href="boids.html" class="nav-link">Boids Playground <img src="assets/new.gif" width="30px" style="vertical-align: -5px;"></a><br> -->
                     <a href="blog.html" class="nav-link">Weblog</a><br>
                     <img src="assets/cats/linea_anluorbarkat.gif" alt="cats" title="cats" style="position: absolute; bottom: 0; left: 0; max-width: 100%; height: auto;" width="1000">
                 </td>
@@ -285,18 +316,21 @@
                     <h2><img src="assets/cats/Home_cat.gif" alt="cats" title="cats" style="max-width: 100%; height: auto;" width="100"></h2>
                     <hr>
                     <p>Hello there! My name is Jason, and this is my personal webpage. <br> <br>
-            This is how I imagined my personal website to look like, when I was younger and had just started browsing the internet. So, this website is designed to look like something you'd find in the early 2000s. 
-			</p> 
+            I wanted to make my personal website to look like something I would imagine my younger self to have seen around on the internet, when I had just started browsing the internet. <a href="#" id="more-link">More?</a> <br>
+            <span id="page-design-philosophy">
+                So, this website is designed to look like something you'd find in the early 2000s. I even tried to go a little bit on-theme with the coding style itself too - structuring the page using tables hehe; although yes I must admit it's not fully authentic - I do be still centering my divs, and adding a dark theme toggle etc. Slight immersion-break perhaps but I thought the ease of life was worth it. 
+			</span>
+            </p> 
 
             <div style="display: inline-block">
-                <img src="assets/me2.jpg" alt="Picture of me" title="Picture of me" width="100"> jason
-              </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <div style="display: inline-block">
-                <img src="assets/lili.jpg" alt="Lily (sweet baby)" title="Lily (sweet baby)" width="100"> lily (cat)
-              </div>&nbsp;&nbsp;
-              <div style="display: inline-block">
-                <img src="assets/biccu.jpg" alt="Biscuit (foolish baby)" title="Biscuit (foolish baby)" width="100"> biccu (cat)
-              </div>
+                <img src="assets/me2.jpg" alt="Picture of me" title="Picture of me" width="100" class="chocolate-border"> jason (me)
+            </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="display: inline-block">
+                <img src="assets/lili.jpg" alt="Lily (sweet baby)" title="Lily (sweet baby)" width="100" class="lily-border"> lily (cat)
+            </div>&nbsp;&nbsp;
+            <div style="display: inline-block">
+                <img src="assets/biccu.jpg" alt="Biscuit (foolish baby)" title="Biscuit (foolish baby)" width="100" class="biscuit-border"> biccu (cat)
+            </div>
                     <p>I'd love to hear if you've visited, please leave me a message here! <a href="http://users.smartgb.com/g/g.php?a=s&i=g19-01653-a4"><img alt="Guestbook" border="0" src="http://extras.smartgb.com/b/gb_80x40.gif" width="50" height="25" style="vertical-align: middle;"></a> </p>
 
                     <p>Check out my <a href="resume.html">work</a> so far, check out more <a href="about.html">about me</a>, or check out my occasional <a href="blog.html">blog</a>.</p>
@@ -330,23 +364,42 @@
         <div style="text-align: center; margin-top: 5px;">
             This page last updated : Aug 13, 2025
         </div>
-        <script>
-            window.onload = function() {
-              // Get the current page's URL
-              const currentPage = window.location.pathname.split("/").pop();
-              // Get all navigation links
-              const navLinks = document.querySelectorAll(".nav-link");
-          
-              // Loop through links and check if the href matches the current page
-              navLinks.forEach(link => {
-                const linkHref = link.getAttribute("href");
-          
-                if (linkHref === currentPage || (currentPage === "" && linkHref === "index.html")) {
-                  link.classList.add("active"); // Add 'active' class to the matching link
-                }
-              });
-            };
-          </script>
+
+<!-- Script to toggle 'More?' section in each project
+     		and the 'Expand all' and 'Close all' buttons -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const moreLink = document.getElementById("more-link");
+        const moreContent = document.getElementById("page-design-philosophy");
+    
+        // Toggle moreContent
+        moreLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            moreContent.classList.toggle("expanded");
+
+            // Update link text
+            moreLink.textContent = moreContent.classList.contains("expanded") ? "Less?" : "More?";
+        });
+    });
+</script>
+
+<script>
+window.onload = function() {
+    // Get the current page's URL
+    const currentPage = window.location.pathname.split("/").pop();
+    // Get all navigation links
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    // Loop through links and check if the href matches the current page
+    navLinks.forEach(link => {
+    const linkHref = link.getAttribute("href");
+
+    if (linkHref === currentPage || (currentPage === "" && linkHref === "index.html")) {
+        link.classList.add("active"); // Add 'active' class to the matching link
+    }
+    });
+};
+</script>
 
 <script>
     // Get references to HTML and the toggle button
