@@ -73,10 +73,14 @@
         }
         a {
             color: #FF90A5;
-            text-decoration: none;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 144, 165, 0.5);
+            text-underline-offset: 3px;
         }
         a:hover {
             text-decoration: underline;
+            text-decoration-color: rgba(255, 144, 165, 1);
+            text-underline-offset: 3px;
         }
         .nav {
             background-color: #FF90A5;
@@ -316,9 +320,9 @@
                     <h2><img src="assets/cats/Home_cat.gif" alt="cats" title="cats" style="max-width: 100%; height: auto;" width="100"></h2>
                     <hr>
                     <p>Hello there! My name is Jason, and this is my personal webpage. <br> <br>
-            I wanted to make my personal website to look like something I would imagine my younger self to have seen around on the internet, when I had just started browsing the internet. <a href="#" id="more-link">More?</a> <br>
+            I wanted to make my personal website to look like something I would imagine my younger self to have seen around on the internet, when I had just started browsing the internet. <br> <a href="#" id="more-link">More about the design?</a>
             <span id="page-design-philosophy">
-                So, this website is designed to look like something you'd find in the early 2000s. I even tried to go a little bit on-theme with the coding style itself too - structuring the page using tables hehe; although yes I must admit it's not fully authentic - I do be still centering my divs, and adding a dark theme toggle etc. Slight immersion-break perhaps but I thought the ease of life was worth it. 
+                So, this website is designed to look like something you'd find in the early 2000s. I even tried to go a little bit on-theme with the coding style itself too - structuring the page using tables hehe; although yes I must admit it's not fully authentic - I do be still centering my divs, and adding a dark theme toggle etc. Slight immersion-break perhaps but I thought the ease of life was worth it. <br> If you enjoy what you see, I would highly recommend making one of your own! Making websites is pretty much the only creative thing I know to do, so I like coming back to making this whenever I feel like I've spent too long on social media, or (recently) if I feel too bad about LLM stuff everywhere. I promise HTML is probably the easiest out of all computer coding stuff - I would gladly help!
 			</span>
             </p> 
 
@@ -333,7 +337,7 @@
             </div>
                     <p>I'd love to hear if you've visited, please leave me a message here! <a href="http://users.smartgb.com/g/g.php?a=s&i=g19-01653-a4"><img alt="Guestbook" border="0" src="http://extras.smartgb.com/b/gb_80x40.gif" width="50" height="25" style="vertical-align: middle;"></a> </p>
 
-                    <p>Check out my <a href="resume.html">work</a> so far, check out more <a href="about.html">about me</a>, or check out my occasional <a href="blog.html">blog</a>.</p>
+                    <p>You can check out all the kinds of <a href="about.html">stuff I like</a>, or check out the neuroscience-y/general academia-y <a href="resume.html">stuff I've done</a> so far, or check out my very few <a href="blog.html">blog</a> posts. Hope you enjoy your stay! If you enjoy what you see, I would highly recommend making a website of your own!</p>
                     <!-- <img src="assets/cats/cat-relaxing.gif" alt="Kitten relaxing on hammock" title="Kitten relaxing on hammock" width="100"> -->
                     <img src="assets/cats/cat (1).gif" alt="cat running" title="cat running" style="max-width: 100%; height: auto;" width="1000">
                      
@@ -378,7 +382,7 @@
             moreContent.classList.toggle("expanded");
 
             // Update link text
-            moreLink.textContent = moreContent.classList.contains("expanded") ? "Less?" : "More?";
+            moreLink.textContent = moreContent.classList.contains("expanded") ? "Less about the design?" : "More about the design?";
         });
     });
 </script>
